@@ -1,7 +1,5 @@
 package com.trainwithme.feature.plan.component
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,17 +22,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.trainwithme.core.designsystem.component.AssetImage
 import com.trainwithme.core.designsystem.component.DetailRow
 import com.trainwithme.core.designsystem.component.SectionTitle
 import com.trainwithme.core.designsystem.component.TwmCard
 import com.trainwithme.core.model.plan.PlanDay
-import com.trainwithme.core.model.plan.PlannedExercise
 import com.trainwithme.core.model.plan.TrainingPlan
 import com.trainwithme.core.model.profile.NutritionTargets
 import java.time.LocalDate
@@ -110,53 +104,6 @@ fun WeekStrip(
                 }
             }
         }
-    }
-}
-
-/** One exercise row inside a day list. */
-@Composable
-fun ExerciseRow(
-    index: Int,
-    exercise: PlannedExercise,
-    thumbnailAsset: String,
-    modifier: Modifier = Modifier,
-    onClick: (() -> Unit)? = null,
-) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(14.dp))
-            .background(MaterialTheme.colorScheme.surfaceContainerHigh)
-            .clickable(enabled = onClick != null) { onClick?.invoke() }
-            .padding(12.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        AssetImage(
-            assetPath = thumbnailAsset,
-            contentDescription = null,
-            size = 52.dp,
-        )
-        Spacer(Modifier.size(12.dp))
-        Column(Modifier.weight(1f)) {
-            Text(
-                text = exercise.name,
-                style = MaterialTheme.typography.titleMedium,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
-            Text(
-                text = "${exercise.prescription.display} · rest ${exercise.prescription.restSeconds}s · RPE ${formatRpe(exercise.prescription.rpeTarget)}",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
-        }
-        Text(
-            text = "${index + 1}",
-            style = MaterialTheme.typography.labelLarge,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
     }
 }
 
@@ -396,5 +343,3 @@ fun TodayCard(
     }
 }
 
-private fun formatRpe(value: Double): String =
-    if (value % 1.0 == 0.0) value.toInt().toString() else value.toString()

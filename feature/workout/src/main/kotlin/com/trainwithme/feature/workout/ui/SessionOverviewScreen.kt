@@ -39,7 +39,7 @@ import com.trainwithme.core.designsystem.component.MessageBanner
 import com.trainwithme.core.designsystem.component.PrimaryButton
 import com.trainwithme.core.designsystem.component.SectionTitle
 import com.trainwithme.core.designsystem.component.TwmCard
-import com.trainwithme.feature.plan.component.ExerciseRow
+import com.trainwithme.core.designsystem.component.ExerciseRow
 import com.trainwithme.feature.workout.vm.WorkoutUiState
 
 /** Pre-session briefing: what you are about to do, and the warm-up checklist. */

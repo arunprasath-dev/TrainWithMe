@@ -43,7 +43,7 @@ import com.trainwithme.core.designsystem.component.SectionTitle
 import com.trainwithme.core.designsystem.component.TwmCard
 import com.trainwithme.core.model.plan.PlanDay
 import com.trainwithme.feature.plan.component.DayCard
-import com.trainwithme.feature.plan.component.ExerciseRow
+import com.trainwithme.core.designsystem.component.ExerciseRow
 import com.trainwithme.feature.plan.component.PlanHeaderCard
 import com.trainwithme.feature.plan.vm.DayDetailViewModel
 import com.trainwithme.feature.plan.vm.PlanBrowserViewModel

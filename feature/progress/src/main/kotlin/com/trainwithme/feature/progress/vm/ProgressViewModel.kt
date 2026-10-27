@@ -170,7 +170,7 @@ class ProgressViewModel @Inject constructor(
             sessions = completed,
             completedSessions = completed.size,
             plannedSessions = planned,
-            adherence = ProgressStats.adherence(completed.size, planned),
+            adherence = ProgressStats.adherence(completed.size, planned).toFloat(),
             streak = streak,
             range = selectedRange,
         )

@@ -30,6 +30,10 @@ data class SetPrescription(
 
     val display: String
         get() = "$sets × $repLabel"
+
+    /** RPE without a trailing `.0`, e.g. `8` instead of `8.0`. */
+    val rpeLabel: String
+        get() = if (rpeTarget % 1.0 == 0.0) rpeTarget.toInt().toString() else rpeTarget.toString()
 }
 
 /** One exercise inside a generated day. Numbers are final — deloads are already applied. */
@@ -48,6 +52,10 @@ data class PlannedExercise(
     /** Path handed to the player, relative to the APK's `assets/` root. */
     val videoAssetPath: String
         get() = "videos/$videoClipId.mp4"
+
+    /** One-line prescription shown in list rows: `4 × 6–8 · rest 150s · RPE 8`. */
+    val prescriptionSummary: String
+        get() = "${prescription.display} · rest ${prescription.restSeconds}s · RPE ${prescription.rpeLabel}"
 }
 
 /** A warm-up checklist item. `durationSeconds == 0` means "for reps", shown in instructions. */
