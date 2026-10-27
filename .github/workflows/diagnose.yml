@@ -1,7 +1,7 @@
 name: Diagnose build
 
-# TEMPORARY: the sandbox cannot download job logs, so this workflow posts the compiler output of a
-# failing build as a PR comment. It is deleted once the build is green.
+# TEMPORARY: the sandbox cannot download job logs, so this workflow posts the failing compile /
+# test / lint output as a PR comment. It is deleted once the build is green.
 on:
   pull_request:
     branches: [main]
@@ -12,9 +12,9 @@ permissions:
   pull-requests: write
 
 jobs:
-  compile:
+  diagnose:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
 
@@ -26,14 +26,18 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
 
       - name: Compile
-        id: compile
         continue-on-error: true
-        run: |
-          set +e
-          ./gradlew :app:assembleDebug --continue --stacktrace > build.log 2>&1
-          echo "status=$?" >> "$GITHUB_OUTPUT"
+        run: ./gradlew :app:assembleDebug --continue --stacktrace > compile.log 2>&1 || true
 
-      - name: Publish errors
+      - name: Unit tests
+        continue-on-error: true
+        run: ./gradlew testDebugUnitTest --continue --stacktrace > test.log 2>&1 || true
+
+      - name: Lint
+        continue-on-error: true
+        run: ./gradlew :app:lintDebug --continue --stacktrace > lint.log 2>&1 || true
+
+      - name: Publish diagnostics
         if: always()
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -41,9 +45,12 @@ jobs:
         run: |
           {
             echo "### Build diagnostics (run ${{ github.run_id }})"
-            echo '```'
-            grep -E "^(e: |w: .*error|FAILURE|\* What went wrong|> Task .* FAILED|Caused by)" build.log | head -120 || true
-            echo '```'
+            for f in compile test lint; do
+              echo "#### $f"
+              echo '```'
+              grep -E "^(e: |FAILED|FAILURE|\* What went wrong|> Task .* FAILED)|tests? completed|There were failing tests|^[A-Za-z0-9_.]+ > .* FAILED|Lint found|Error: " "$f.log" 2>/dev/null | head -60 || true
+              echo '```'
+            done
           } > comment.md
           if [ -n "$PR" ]; then gh pr comment "$PR" --body-file comment.md; fi
           cat comment.md
