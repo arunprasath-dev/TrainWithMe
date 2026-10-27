@@ -1,0 +1,30 @@
+# Gradle
+.gradle/
+build/
+**/build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Android Studio / IntelliJ
+*.iml
+.idea/
+local.properties
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Kotlin
+.kotlin/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Generated / signing
+*.jks
+*.keystore
+keystore.properties
+release/
+
+# Python (asset generation tooling)
+__pycache__/
+*.pyc
