@@ -37,6 +37,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.common.util.UnstableApi
 import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
 
@@ -49,6 +50,9 @@ import androidx.media3.ui.PlayerView
  *  * if the asset is missing the player renders a neutral placeholder with an icon instead of
  *    crashing — the technique cues remain the source of truth.
  */
+// PlayerView / AspectRatioFrameLayout are annotated @UnstableApi by Media3; the surface used here
+// (view + resize mode) has been stable in practice since 1.0, so the opt-in is scoped to this file.
+@androidx.annotation.OptIn(UnstableApi::class)
 @Composable
 fun LoopingAssetVideo(
     assetPath: String,
