@@ -1,14 +1,8 @@
-// Top-level build file. Dependency and plugin versions live in gradle/libs.versions.toml.
+// Top-level build file
 plugins {
-    alias(libs.plugins.android.application) apply false
-    alias(libs.plugins.android.library) apply false
-    alias(libs.plugins.kotlin.jvm) apply false
-    alias(libs.plugins.kotlin.compose) apply false
-    alias(libs.plugins.kotlin.serialization) apply false
-    alias(libs.plugins.ksp) apply false
-    alias(libs.plugins.hilt) apply false
-}
-
-tasks.register<Delete>("clean") {
-    delete(rootProject.layout.buildDirectory)
+    id("com.android.application") version "8.10.1" apply false
+    id("org.jetbrains.kotlin.android") version "2.2.21" apply false
+    id("org.jetbrains.kotlin.plugin.compose") version "2.2.21" apply false
+    id("org.jetbrains.kotlin.plugin.serialization") version "2.2.21" apply false
+    id("com.google.devtools.ksp") version "2.2.21-2.0.4" apply false
 }

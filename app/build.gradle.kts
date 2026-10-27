@@ -1,38 +1,40 @@
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.ksp)
-    alias(libs.plugins.hilt)
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.plugin.compose")
+    id("org.jetbrains.kotlin.plugin.serialization")
+    id("com.google.devtools.ksp")
 }
 
 android {
-    namespace = "com.trainwithme.app"
-    compileSdk = 37
+    namespace = "com.agon.app"
+    compileSdk = 36
+    buildToolsVersion = "36.0.0"
 
     defaultConfig {
-        applicationId = "com.trainwithme.app"
+        applicationId = "com.agon.app"
+        // java.time is used across the domain engine (original app targets 26+).
         minSdk = 26
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
-        versionName = "1.0.0"
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables.useSupportLibrary = true
+        versionName = "1.0"
+    }
+
+    signingConfigs {
+        getByName("debug") {
+            storeFile = file("${rootProject.projectDir}/debug.keystore")
+            storePassword = "android"
+            keyAlias = "androiddebugkey"
+            keyPassword = "android"
+        }
     }
 
     buildTypes {
         debug {
-            applicationIdSuffix = ".debug"
-            versionNameSuffix = "-debug"
-            isMinifyEnabled = false
+            signingConfig = signingConfigs.getByName("debug")
         }
         release {
-            isMinifyEnabled = true
-            isShrinkResources = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro",
-            )
-            // Demo build: no signing config is committed. Configure your own keystore before shipping.
+            isMinifyEnabled = false
         }
     }
 
@@ -41,72 +43,53 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlin {
-        compilerOptions {
-            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
-            freeCompilerArgs.add("-opt-in=kotlin.RequiresOptIn")
-        }
+    kotlinOptions {
+        jvmTarget = "17"
     }
 
     buildFeatures {
         compose = true
-        buildConfig = true
     }
 
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
-
-    lint {
-        abortOnError = true
-        warningsAsErrors = false
-        checkDependencies = true
-        baseline = file("lint-baseline.xml")
-        // Offline v1: no network stack, so no permission checks to fail on.
-        disable += setOf("UnusedResources")
+    ksp {
+        arg("room.schemaLocation", "$projectDir/schemas")
+        arg("room.generateKotlin", "true")
     }
 }
 
 dependencies {
-    implementation(project(":core:model"))
-    implementation(project(":core:data"))
-    implementation(project(":core:designsystem"))
-    implementation(project(":feature:onboarding"))
-    implementation(project(":feature:plan"))
-    implementation(project(":feature:workout"))
-    implementation(project(":feature:progress"))
+    implementation(platform("androidx.compose:compose-bom:2026.01.01"))
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui-graphics")
+    implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.material:material-icons-extended")
+    implementation("androidx.compose.ui:ui-tooling-preview")
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.lifecycle.runtime.compose)
-    implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.navigation.compose)
+    implementation("androidx.activity:activity-compose:1.12.2")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.10.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.10.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:2.10.0")
 
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.material3)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    debugImplementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.compose.material.icons.extended)
+    implementation("androidx.navigation:navigation-compose:2.9.7")
 
-    implementation(libs.hilt.android)
-    implementation(libs.hilt.navigation.compose)
-    implementation(libs.hilt.work)
-    ksp(libs.hilt.compiler)
-    ksp(libs.hilt.work.compiler)
+    implementation("androidx.core:core-ktx:1.15.0")
 
-    implementation(libs.androidx.work.runtime.ktx)
-    implementation(libs.timber)
+    implementation("io.coil-kt.coil3:coil-compose:3.3.0")
+    implementation("io.coil-kt.coil3:coil-network-okhttp:3.3.0")
 
-    testImplementation(libs.junit)
-    testImplementation(libs.kotlin.test)
-    testImplementation(libs.kotlinx.coroutines.test)
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
 
-    androidTestImplementation(libs.androidx.test.junit)
-    androidTestImplementation(libs.androidx.test.espresso.core)
-    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
-    debugImplementation(libs.androidx.compose.ui.test.manifest)
-    debugImplementation(libs.androidx.compose.ui.tooling)
+    implementation("androidx.datastore:datastore-preferences:1.2.0")
+
+    // TrainWithMe: persistence, media, scheduling
+    implementation("androidx.room:room-runtime:2.8.5")
+    implementation("androidx.room:room-ktx:2.8.5")
+    ksp("androidx.room:room-compiler:2.8.5")
+
+    implementation("androidx.media3:media3-exoplayer:1.4.1")
+    implementation("androidx.media3:media3-ui:1.4.1")
+
+    implementation("androidx.work:work-runtime-ktx:2.12.0")
+
+    debugImplementation("androidx.compose.ui:ui-tooling")
 }
