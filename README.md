@@ -8,9 +8,9 @@ progressive overload.
 Built with Kotlin + Jetpack Compose, offline-first: no account, no backend, and deliberately
 **no `INTERNET` permission**.
 
-> **Status:** v1.0 feature-complete. The whole app is written; the first Gradle build in Android
-> Studio (or the CI workflow) is the authoritative compile gate. `docs/PLAN.md` §14 records
-> exactly what has been verified, and §16 holds the manual QA checklist.
+> **Status:** v1.0 feature-complete and green on CI — `:app:assembleDebug`, all JVM unit tests,
+> `:app:lintDebug` and the R8 release build pass on a clean GitHub runner. `docs/PLAN.md` §14
+> records the status map and §16 holds the manual device QA checklist.
 
 ---
 

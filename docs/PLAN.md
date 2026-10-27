@@ -617,8 +617,12 @@ implemented; the only non-code deliverable outstanding is licensed video footage
 
 ### 14.1 How this build was verified
 
-The work was produced in an environment without the Android SDK, a JDK-backed Gradle build or an
-emulator, so "it compiles" could not be proven by `./gradlew`. Instead:
+The implementation was authored in an environment without the Android SDK or an emulator, so the
+first real Gradle build happened on GitHub Actions (`.github/workflows/android-ci.yml`). It is now
+green: `:app:assembleDebug`, `testDebugUnitTest` for every module, `:app:lintDebug` and
+`:app:assembleRelease` (R8 + resource shrinking) all pass on a clean runner.
+
+Before that, and still useful as a fast local loop:
 
 | Check | Result |
 |---|---|
@@ -632,9 +636,13 @@ emulator, so "it compiles" could not be proven by `./gradlew`. Instead:
 | Asset consistency: every referenced demo clip and thumbnail exists | enforced by `ExerciseCatalogueTest` |
 
 The checkers were themselves mutation-tested (deliberately broken imports, arguments, resources and
-Compose annotations) before being trusted, and they caught two genuine defects that are fixed in this
-branch. **The first run of `./gradlew :app:assembleDebug` in Android Studio or CI remains the
-authoritative compile gate** — that is exactly what `android-ci.yml` runs.
+Compose annotations) before being trusted, and they caught defects that are fixed in this branch.
+
+The CI build then caught the things only a real compiler and a real lint run can catch, all fixed
+here: suspend DAO reads inside non-suspend JSON builders, a missing `kotlinx.coroutines.launch`
+import, `Double`/`Float` adherence, a feature-to-feature dependency (`ExerciseRow` moved into
+`:core:designsystem`), a `FOREARMS` muscle group missing from the enum, the Compose BOM missing from
+the `androidTest`/`debug` configurations, and Media3's `@UnstableApi` opt-in.
 
 ---
 
