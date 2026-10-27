@@ -18,7 +18,8 @@ enum class MuscleGroup {
     GLUTES,
     CALVES,
     CORE,
-    TRAPS;
+    TRAPS,
+    FOREARMS;
 
     val label: String
         get() = when (this) {
@@ -34,6 +35,7 @@ enum class MuscleGroup {
             CALVES -> "Calves"
             CORE -> "Core"
             TRAPS -> "Traps"
+            FOREARMS -> "Forearms"
         }
 
     /** Groups that are trained together for the weekly volume audit. */
@@ -50,6 +52,9 @@ enum class MuscleGroup {
             CALVES -> VolumeFamily.CALVES
             CORE -> VolumeFamily.CORE
             TRAPS -> VolumeFamily.BACK
+            // Forearm work is arm work: it counts towards the biceps budget instead of needing a
+            // weekly target of its own (the validator's families are the training split's groups).
+            FOREARMS -> VolumeFamily.BICEPS
         }
 }
 
