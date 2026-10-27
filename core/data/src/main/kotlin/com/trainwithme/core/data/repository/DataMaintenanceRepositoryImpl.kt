@@ -40,6 +40,8 @@ class DefaultDataMaintenanceRepository @Inject constructor(
         val measurements = measurementDao.getAll()
         val plans = planDao.getAll()
         val sessions = sessionDao.getAll()
+        // Suspend DAO reads must complete before the (non-suspend) JSON builders run.
+        val setsBySession = sessions.associate { session -> session.id to setLogDao.forSession(session.id) }
 
         val document = buildJsonObject {
             put("exportedAtMillis", timeProvider.nowMillis())
@@ -110,7 +112,7 @@ class DefaultDataMaintenanceRepository @Inject constructor(
                             put("startedAtMillis", session.startedAt)
                             put("completedAtMillis", session.completedAt)
                             putJsonArray("sets") {
-                                setLogDao.forSession(session.id).forEach { set ->
+                                setsBySession[session.id].orEmpty().forEach { set ->
                                     add(
                                         buildJsonObject {
                                             put("exerciseId", set.exerciseId)
