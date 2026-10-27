@@ -235,7 +235,7 @@ fun SettingsContent(
         TwmCard {
             SectionTitle("During a workout")
             ToggleRow(
-                title = "Rest timer sound",
+                title = "Rest timer alert",
                 subtitle = "Vibrate and beep when rest ends",
                 checked = settings.restTimerSoundEnabled,
                 onCheckedChange = onRestSound,

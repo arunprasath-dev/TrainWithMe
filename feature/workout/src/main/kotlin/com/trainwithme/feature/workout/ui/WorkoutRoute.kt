@@ -1,9 +1,14 @@
 package com.trainwithme.feature.workout.ui
 
+import android.media.AudioManager
+import android.media.ToneGenerator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -26,14 +31,16 @@ fun WorkoutRoute(
     val view = LocalView.current
 
     KeepScreenOn(enabled = state.keepScreenOn && state.phase == SessionPhase.PLAYING, view = view)
+    RestCompletionFeedback(
+        completionCount = state.restCompletionCount,
+        enabled = state.restTimerSoundEnabled,
+    )
 
     LaunchedEffect(viewModel) {
         viewModel.effects.collect { effect ->
             when (effect) {
-                WorkoutEffect.SessionFinished, WorkoutEffect.ExitRequested -> {
-                    onFinished()
-                    onExit()
-                }
+                WorkoutEffect.SessionFinished -> onFinished()
+                WorkoutEffect.ExitRequested -> onExit()
             }
         }
     }
@@ -68,6 +75,23 @@ fun WorkoutRoute(
             state = state,
             onDone = viewModel::closeSession,
         )
+    }
+}
+
+@Composable
+private fun RestCompletionFeedback(completionCount: Int, enabled: Boolean) {
+    val haptic = LocalHapticFeedback.current
+    val toneGenerator = androidx.compose.runtime.remember {
+        runCatching { ToneGenerator(AudioManager.STREAM_NOTIFICATION, 70) }.getOrNull()
+    }
+    DisposableEffect(toneGenerator) {
+        onDispose { toneGenerator?.release() }
+    }
+    LaunchedEffect(completionCount) {
+        if (completionCount > 0 && enabled) {
+            toneGenerator?.startTone(ToneGenerator.TONE_PROP_BEEP, 220)
+            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+        }
     }
 }
 

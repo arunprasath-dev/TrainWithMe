@@ -35,6 +35,18 @@
             </intent-filter>
         </activity>
 
+        <receiver
+            android:name=".widget.NextWorkoutWidgetProvider"
+            android:exported="true"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/next_workout_widget_info" />
+        </receiver>
+
         <!--
           WorkManager is initialised on demand through Configuration.Provider so Hilt can inject the
           reminder worker. This is the documented opt-out for the default initializer.

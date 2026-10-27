@@ -51,12 +51,18 @@ import com.trainwithme.core.designsystem.theme.TrainWithMeTheme
 fun TwmCard(
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null,
+    containerColor: Color = MaterialTheme.colorScheme.surfaceContainer,
     content: @Composable () -> Unit,
 ) {
-    val colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer)
+    val colors = CardDefaults.cardColors(containerColor = containerColor)
     val shape = RoundedCornerShape(20.dp)
     if (onClick == null) {
-        Card(modifier = modifier.fillMaxWidth(), shape = shape, colors = colors) {
+        Card(
+            modifier = modifier.fillMaxWidth(),
+            shape = shape,
+            colors = colors,
+            elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
+        ) {
             Column(Modifier.padding(16.dp)) { content() }
         }
     } else {
@@ -65,6 +71,7 @@ fun TwmCard(
             modifier = modifier.fillMaxWidth(),
             shape = shape,
             colors = colors,
+            elevation = CardDefaults.cardElevation(defaultElevation = 1.dp, pressedElevation = 3.dp),
         ) {
             Column(Modifier.padding(16.dp)) { content() }
         }

@@ -1,5 +1,6 @@
 package com.trainwithme.feature.workout.ui
 
+import android.content.Intent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,13 +16,20 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.EmojiEvents
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.trainwithme.core.designsystem.component.PrimaryButton
 import com.trainwithme.core.designsystem.component.SectionTitle
@@ -38,6 +46,8 @@ fun SessionSummaryScreen(
     modifier: Modifier = Modifier,
 ) {
     val summary = state.summary
+    val context = LocalContext.current
+    var showMilestone by remember(state.sessionMilestone) { mutableStateOf(true) }
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -52,6 +62,29 @@ fun SessionSummaryScreen(
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
+
+        if (showMilestone) {
+            state.sessionMilestone?.let { milestone ->
+                androidx.compose.material3.Surface(
+                    color = MaterialTheme.colorScheme.tertiaryContainer,
+                    shape = MaterialTheme.shapes.medium,
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    Row(
+                        modifier = Modifier.padding(start = 16.dp, top = 8.dp, bottom = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Text(
+                            milestone,
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onTertiaryContainer,
+                            modifier = Modifier.weight(1f),
+                        )
+                        TextButton(onClick = { showMilestone = false }) { Text("Dismiss") }
+                    }
+                }
+            }
+        }
 
         if (summary == null) {
             TwmCard {
@@ -77,6 +110,29 @@ fun SessionSummaryScreen(
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
+            }
+
+            androidx.compose.material3.OutlinedButton(
+                onClick = {
+                    val recap = buildString {
+                        append("TrainWithMe workout recap: ${summary.title}\n")
+                        append("${summary.workingSets} working sets · ${summary.totalReps} reps · ${summary.durationMinutes} min")
+                        if (summary.personalRecords.isNotEmpty()) {
+                            append("\nNew PRs: ")
+                            append(summary.personalRecords.joinToString { it.exerciseName })
+                        }
+                    }
+                    val sendIntent = Intent(Intent.ACTION_SEND).apply {
+                        type = "text/plain"
+                        putExtra(Intent.EXTRA_TEXT, recap)
+                    }
+                    context.startActivity(Intent.createChooser(sendIntent, "Share workout recap"))
+                },
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                androidx.compose.material3.Icon(Icons.Default.Share, contentDescription = null)
+                Spacer(Modifier.size(8.dp))
+                Text("Share recap")
             }
 
             if (summary.personalRecords.isNotEmpty()) {

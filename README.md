@@ -8,9 +8,10 @@ progressive overload.
 Built with Kotlin + Jetpack Compose, offline-first: no account, no backend, and deliberately
 **no `INTERNET` permission**.
 
-> **Status:** v1.0 feature-complete and green on CI — `:app:assembleDebug`, all JVM unit tests,
-> `:app:lintDebug` and the R8 release build pass on a clean GitHub runner. `docs/PLAN.md` §14
-> records the status map and §16 holds the manual device QA checklist.
+> **Status:** The v1.0 baseline previously passed CI (debug/release builds, JVM tests and lint).
+> This UX polish iteration adds a widget, Compose smoke tests and motion/accessibility changes; those
+> changes still need a Java-enabled Gradle/CI run and device QA. `docs/UX-PLAN.md` tracks completed
+> implementation work and the remaining external/device release gates.
 
 ---
 
@@ -32,6 +33,7 @@ network access required at runtime.
 ```bash
 ./gradlew :app:assembleDebug        # build the debug APK
 ./gradlew testDebugUnitTest         # JVM unit tests (engine + data)
+./gradlew :app:connectedDebugAndroidTest :feature:plan:connectedDebugAndroidTest :core:designsystem:connectedDebugAndroidTest  # Compose smoke tests
 ./gradlew :app:lintDebug            # Android lint (baseline: app/lint-baseline.xml)
 ./gradlew :app:assembleRelease      # R8 + resource shrinking, unsigned
 ```
@@ -43,11 +45,12 @@ network access required at runtime.
 | Flow | Screen | Highlights |
 |---|---|---|
 | Onboarding | `feature/onboarding` | Sex, age, height, weight, body-fat %, circumference, goal, experience, days/week, session length, equipment, disclaimer |
-| Today | `feature/plan` dashboard | Today card, week strip, adherence ring, streak, nutrition targets card, quick weigh-in |
+| Today | `feature/plan` dashboard | Next-session hero, week strip, animated adherence/reflection, compassionate return-after-break note, nutrition targets, quick weigh-in |
 | Plan | `feature/plan` browser + day detail | 8-week mesocycle with deloads, per-day exercise list, "why this plan" explainability |
-| Train | `feature/workout` | Session overview → **player** (video, cues, set logging, RPE, rest countdown, swap/skip) → summary with volume, sets, PRs |
-| Progress | `feature/progress` | Weight and body-fat trend charts, weekly volume bars, PRs, measurement log, session history |
-| Settings | `feature/plan` settings | Units, theme, reminder time, rest-timer sound, keep-screen-on, export/delete data |
+| Train | `feature/workout` | Session overview → **player** (video, cues, set logging, RPE, resilient rest timer, swap/skip) → recap, dismissible milestones, private-by-default share action |
+| Progress | `feature/progress` | Weight and body-fat trend charts with spoken summaries, weekly volume bars, PRs, measurement log, session history |
+| Quick access | Android home-screen widget | Offline next-session summary; opens the app without exposing body metrics |
+| Settings | `feature/plan` settings | Units, theme, opt-in reminder time, rest-timer beep/haptic control, keep-screen-on, export/delete data |
 
 Personalisation is derived from real inputs, not a template: body composition feeds BMR/TDEE and
 macro targets (Mifflin-St Jeor, Katch-McArdle fallback), goal + experience + equipment choose the
@@ -58,7 +61,7 @@ split and prescriptions, available minutes budget the session volume.
 ## Module map
 
 ```
-:app                      single Activity, NavHost, theme switch, R8/lint config
+:app                      single Activity, NavHost/destination bar, theme switch, next-session widget
 :core:model               pure Kotlin domain — no Android, no coroutines, fully unit-tested
 :core:data                Room, DataStore, repositories, plan JSON codec, reminders, Hilt
 :core:designsystem        Material 3 theme, components, charts, Media3 video player
@@ -94,7 +97,8 @@ view-model and one-shot effects delivered over a `Channel`.
 
 | File | Contents |
 |---|---|
-| `docs/PLAN.md` | The end-to-end plan: scope, journeys, functional spec, personalisation maths, architecture, data model, NFRs, testing, milestones, risks, conventions, version matrix |
+| `docs/PLAN.md` | Product and engineering plan: scope, journeys, functional spec, personalisation maths, architecture, data model, NFRs, testing, milestones, risks, conventions, version matrix |
+| `docs/UX-PLAN.md` | UX/design review, prioritized end-to-end improvement roadmap, implementation tracker and accessibility/performance release gates |
 | `docs/CONTENT.md` | Exercise catalogue and demo-clip pipeline, clip specs, upgrade path |
 | `core/data/schemas/` | Room schema exports (written by KSP on the first build, then committed) |
 
@@ -103,7 +107,8 @@ view-model and one-shot effects delivered over a `Channel`.
 ## Quality gates
 
 - **Unit tests:** 104 JVM tests over the domain engine (`./gradlew :core:model:test`), plus data-layer
-  tests for the plan codec and the shipped catalogue.
+  tests for the plan codec and shipped catalogue; Compose instrumentation smoke tests cover primary actions,
+  destination selection and chart accessibility semantics (run on an emulator/device).
 - **CI** (`.github/workflows/android-ci.yml`): assemble debug, run unit tests, run lint, verify the
   R8 release build; tagged builds attach the unsigned APK/AAB.
 - **Lint:** `abortOnError = true`, `checkDependencies = true`, committed baseline.

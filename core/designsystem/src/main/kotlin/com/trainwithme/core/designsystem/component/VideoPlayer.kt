@@ -14,6 +14,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.VideocamOff
 import androidx.compose.material3.Icon
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,6 +32,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -62,6 +65,7 @@ fun LoopingAssetVideo(
 ) {
     val context = LocalContext.current
     var failed by remember(assetPath) { mutableStateOf(false) }
+    var isBuffering by remember(assetPath) { mutableStateOf(false) }
 
     val player = remember(assetPath) {
         runCatching {
@@ -88,9 +92,22 @@ fun LoopingAssetVideo(
                 else -> Unit
             }
         }
+        val playerListener = object : Player.Listener {
+            override fun onPlayerError(error: androidx.media3.common.PlaybackException) {
+                failed = true
+                isBuffering = false
+                player?.pause()
+            }
+
+            override fun onPlaybackStateChanged(playbackState: Int) {
+                isBuffering = playbackState == Player.STATE_BUFFERING
+            }
+        }
+        player?.addListener(playerListener)
         lifecycleOwner.lifecycle.addObserver(observer)
         onDispose {
             lifecycleOwner.lifecycle.removeObserver(observer)
+            player?.removeListener(playerListener)
             player?.release()
         }
     }
@@ -105,7 +122,10 @@ fun LoopingAssetVideo(
             .fillMaxWidth()
             .aspectRatio(1f)
             .clip(shape)
-            .background(MaterialTheme.colorScheme.surfaceContainer),
+            .background(MaterialTheme.colorScheme.surfaceContainer)
+            .semantics {
+                this.contentDescription = contentDescription ?: "Exercise demonstration video"
+            },
         contentAlignment = Alignment.Center,
     ) {
         if (player == null || failed) {
@@ -141,6 +161,14 @@ fun LoopingAssetVideo(
                 },
                 update = { view -> view.player = player },
             )
+            if (isBuffering && playing) {
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .size(36.dp)
+                        .semantics { this.contentDescription = "Loading demonstration video" },
+                    strokeWidth = 3.dp,
+                )
+            }
             if (!playing) {
                 Icon(
                     Icons.Default.PlayArrow,

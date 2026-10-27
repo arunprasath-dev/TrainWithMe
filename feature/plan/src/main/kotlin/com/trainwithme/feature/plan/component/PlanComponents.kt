@@ -183,22 +183,30 @@ fun NutritionCard(
             MacroValue("${nutrition.fatG} g", "fat", MaterialTheme.colorScheme.onSurface)
             MacroValue("${nutrition.carbsG} g", "carbs", MaterialTheme.colorScheme.onSurface)
         }
-        if (expanded) {
-            Spacer(Modifier.height(10.dp))
-            nutrition.explanation.forEach { line ->
-                Row(Modifier.padding(vertical = 3.dp)) {
-                    Text("•  ", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.primary)
-                    Text(
-                        line,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
+        androidx.compose.animation.AnimatedVisibility(
+            visible = expanded,
+            enter = androidx.compose.animation.fadeIn(androidx.compose.animation.core.tween(180)) +
+                androidx.compose.animation.expandVertically(androidx.compose.animation.core.tween(220)),
+            exit = androidx.compose.animation.fadeOut(androidx.compose.animation.core.tween(100)) +
+                androidx.compose.animation.shrinkVertically(androidx.compose.animation.core.tween(160)),
+        ) {
+            Column {
+                Spacer(Modifier.height(10.dp))
+                nutrition.explanation.forEach { line ->
+                    Row(Modifier.padding(vertical = 3.dp)) {
+                        Text("•  ", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.primary)
+                        Text(
+                            line,
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    }
                 }
+                Spacer(Modifier.height(6.dp))
+                DetailRow("Fibre", "${nutrition.fiberG} g")
+                DetailRow("Water", "${nutrition.waterMl} ml")
+                DetailRow("BMR / TDEE", "${nutrition.bmrKcal} / ${nutrition.tdeeKcal} kcal")
             }
-            Spacer(Modifier.height(6.dp))
-            DetailRow("Fibre", "${nutrition.fiberG} g")
-            DetailRow("Water", "${nutrition.waterMl} ml")
-            DetailRow("BMR / TDEE", "${nutrition.bmrKcal} / ${nutrition.tdeeKcal} kcal")
         }
     }
 }
@@ -267,7 +275,10 @@ fun TodayCard(
     onViewPlan: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    TwmCard(modifier = modifier) {
+    TwmCard(
+        modifier = modifier,
+        containerColor = MaterialTheme.colorScheme.primaryContainer,
+    ) {
         Text(
             text = if (isRestDay) "REST DAY" else "TODAY",
             style = MaterialTheme.typography.labelSmall,
