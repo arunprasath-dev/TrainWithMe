@@ -46,7 +46,7 @@ fun WeekStrip(
 ) {
     Row(
         modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(6.dp),
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
     ) {
         days.forEach { day ->
             val isToday = day.date == today
@@ -71,7 +71,7 @@ fun WeekStrip(
                 shape = RoundedCornerShape(14.dp),
                 modifier = Modifier
                     .weight(1f)
-                    .height(74.dp),
+                    .height(78.dp),
             ) {
                 Column(
                     modifier = Modifier
@@ -147,12 +147,17 @@ fun DayCard(
 
 @Composable
 fun StatusPill(text: String, color: Color) {
+    val content = if (color == MaterialTheme.colorScheme.primary) {
+        MaterialTheme.colorScheme.onPrimary
+    } else {
+        MaterialTheme.colorScheme.onSurfaceVariant
+    }
     Surface(color = color, shape = CircleShape) {
         Text(
             text = text,
             style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onSurface,
-            modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
+            color = content,
+            modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
         )
     }
 }

@@ -89,7 +89,6 @@ fun TrainWithMeApp(
         val showNavigation = currentRoute == null || currentRoute in setOf(
             Routes.DASHBOARD,
             Routes.PLAN,
-            Routes.DAY_DETAIL_PATTERN,
             Routes.PROGRESS,
         )
 

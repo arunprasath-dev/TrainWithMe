@@ -13,6 +13,10 @@ enum class ProfileField {
     NECK,
     HIP,
     DISCLAIMER,
+    EXPERIENCE,
+    ACTIVITY_LEVEL,
+    GOAL,
+    EQUIPMENT,
 }
 
 enum class IssueSeverity { ERROR, WARNING }

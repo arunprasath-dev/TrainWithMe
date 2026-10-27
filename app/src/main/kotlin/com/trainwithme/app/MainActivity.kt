@@ -5,7 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.trainwithme.app.ui.AppViewModel
@@ -25,9 +24,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             TrainWithMeApp(
                 appViewModel = hiltViewModel<AppViewModel>(),
-                modifier = Modifier
-                    .fillMaxSize()
-                    .systemBarsPadding(),
+                modifier = Modifier.fillMaxSize(),
             )
         }
     }

@@ -52,10 +52,11 @@ fun SessionSummaryScreen(
         modifier = modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .padding(horizontal = 16.dp),
+            .padding(horizontal = 16.dp)
+            .padding(top = 24.dp, bottom = 24.dp)
+            .navigationBarsPadding(),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        Spacer(Modifier.height(24.dp))
         Text("Session complete", style = MaterialTheme.typography.displaySmall)
         Text(
             summary?.title ?: state.day?.title.orEmpty(),
@@ -190,13 +191,11 @@ fun SessionSummaryScreen(
             }
         }
 
-        Spacer(Modifier.height(16.dp))
+        Spacer(Modifier.height(4.dp))
         PrimaryButton(
             text = "Back to dashboard",
             onClick = onDone,
             modifier = Modifier.fillMaxWidth(),
         )
-        Spacer(Modifier.navigationBarsPadding())
-        Spacer(Modifier.height(24.dp))
     }
 }

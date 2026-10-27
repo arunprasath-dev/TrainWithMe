@@ -95,7 +95,8 @@ fun SessionOverviewScreen(
                 .fillMaxSize()
                 .padding(padding)
                 .verticalScroll(rememberScrollState())
-                .padding(horizontal = 16.dp),
+                .padding(horizontal = 16.dp)
+                .padding(top = 4.dp, bottom = 24.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             state.message?.let { MessageBanner(it, tone = BannerTone.INFO, actionLabel = "OK", onAction = onDismissMessage) }
@@ -105,7 +106,7 @@ fun SessionOverviewScreen(
                 Row(horizontalArrangement = Arrangement.spacedBy(24.dp)) {
                     OverviewStat("Exercises", "${state.day?.exerciseCount ?: 0}")
                     OverviewStat("Sets", "${state.day?.totalSets ?: 0}")
-                    OverviewStat("About", "${state.day?.estimatedMinutes ?: 0} min")
+                    OverviewStat("Est. time", "${state.day?.estimatedMinutes ?: 0} min")
                 }
                 state.day?.focusLabel?.takeIf { it.isNotBlank() }?.let {
                     Spacer(Modifier.height(6.dp))
@@ -189,7 +190,6 @@ fun SessionOverviewScreen(
                     )
                 }
             }
-            Spacer(Modifier.height(12.dp))
         }
     }
 }

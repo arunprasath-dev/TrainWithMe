@@ -159,7 +159,8 @@ fun SettingsContent(
         modifier = modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .padding(horizontal = 16.dp),
+            .padding(horizontal = 16.dp)
+            .padding(top = 4.dp, bottom = 24.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         state.message?.let { MessageBanner(it, tone = BannerTone.ERROR, actionLabel = "Dismiss", onAction = onDismissMessage) }
@@ -283,7 +284,6 @@ fun SettingsContent(
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
-        Spacer(Modifier.height(24.dp))
     }
 }
 

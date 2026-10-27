@@ -6,8 +6,10 @@ import com.trainwithme.core.data.repository.BodyMeasurement
 import com.trainwithme.core.data.repository.MeasurementRepository
 import com.trainwithme.core.data.repository.PlanRepository
 import com.trainwithme.core.data.repository.ProfileRepository
+import com.trainwithme.core.data.repository.SettingsRepository
 import com.trainwithme.core.data.repository.WorkoutRepository
 import com.trainwithme.core.data.util.TimeProvider
+import com.trainwithme.core.model.profile.Units
 import com.trainwithme.core.model.plan.PlanDay
 import com.trainwithme.core.model.plan.PlanGenerationResult
 import com.trainwithme.core.model.plan.PlanCalendar
@@ -49,6 +51,7 @@ data class DashboardUiState(
     val plannedTotal: Int = 0,
     val latestMeasurement: BodyMeasurement? = null,
     val previousMeasurement: BodyMeasurement? = null,
+    val units: Units = Units.KG,
     val needsPlanRebuild: Boolean = false,
     val isRebuilding: Boolean = false,
     val message: String? = null,
@@ -71,6 +74,7 @@ class DashboardViewModel @Inject constructor(
     private val planRepository: PlanRepository,
     private val workoutRepository: WorkoutRepository,
     private val measurementRepository: MeasurementRepository,
+    private val settingsRepository: SettingsRepository,
     private val timeProvider: TimeProvider,
 ) : ViewModel() {
 
@@ -81,9 +85,17 @@ class DashboardViewModel @Inject constructor(
         planRepository.observeActivePlan(),
         workoutRepository.observeSessions(),
         measurementRepository.observeAll(),
+        settingsRepository.observeSettings(),
         transient,
-    ) { profile, plan, sessions, measurements, extra ->
-        buildState(profile, plan, sessions, measurements, extra)
+    ) { args ->
+        @Suppress("UNCHECKED_CAST")
+        val profile = args[0] as UserProfile?
+        val plan = args[1] as TrainingPlan?
+        val sessions = args[2] as List<WorkoutSession>
+        val measurements = args[3] as List<BodyMeasurement>
+        val settings = args[4] as com.trainwithme.core.data.repository.UserSettings
+        val extra = args[5] as TransientState
+        buildState(profile, plan, sessions, measurements, settings.units, extra)
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
@@ -134,11 +146,12 @@ class DashboardViewModel @Inject constructor(
         plan: TrainingPlan?,
         sessions: List<WorkoutSession>,
         measurements: List<BodyMeasurement>,
+        units: Units = Units.KG,
         extra: TransientState,
     ): DashboardUiState {
         val today = extra.nowOverride ?: timeProvider.today()
         if (profile == null) {
-            return DashboardUiState(isLoading = false, todayKind = TodayKind.NO_PLAN, message = extra.message)
+            return DashboardUiState(isLoading = false, todayKind = TodayKind.NO_PLAN, message = extra.message, units = units)
         }
         if (plan == null) {
             return DashboardUiState(
@@ -147,6 +160,7 @@ class DashboardViewModel @Inject constructor(
                 todayKind = TodayKind.NO_PLAN,
                 todayDate = today,
                 message = extra.message,
+                units = units,
             )
         }
 
@@ -202,6 +216,7 @@ class DashboardViewModel @Inject constructor(
             plannedTotal = plan.totalPlannedSessions,
             latestMeasurement = latest,
             previousMeasurement = previous,
+            units = units,
             // Profile edited after the plan was generated → offer a rebuild, never do it silently.
             needsPlanRebuild = profile.updatedAt > plan.createdAtMillis,
             isRebuilding = extra.isRebuilding,
