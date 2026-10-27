@@ -1,0 +1,1963 @@
+[
+  {
+    "id": "barbell-bench-press",
+    "name": "Barbell bench press",
+    "pattern": "HORIZONTAL_PUSH",
+    "primaryMuscles": [
+      "CHEST"
+    ],
+    "secondaryMuscles": [
+      "SHOULDERS",
+      "TRICEPS"
+    ],
+    "equipment": [
+      "BARBELL",
+      "BENCH"
+    ],
+    "difficulty": 3,
+    "isCompound": true,
+    "tempo": "2-0-1",
+    "defaultRestSeconds": 150,
+    "setup": "Lie on the bench with your eyes under the bar, feet flat, and squeeze your shoulder blades down and back.",
+    "cues": [
+      "Grip the bar just outside shoulder width and unrack it over your shoulders.",
+      "Pull your shoulder blades together and keep your chest tall.",
+      "Lower the bar to your mid-chest with elbows about 45 degrees from your ribs.",
+      "Touch your chest lightly, then push the floor away until your elbows lock.",
+      "Keep your glutes on the bench the whole time."
+    ],
+    "mistakes": [
+      "Bouncing the bar off the chest",
+      "Elbows flared to 90 degrees",
+      "Hips lifting off the bench"
+    ],
+    "breathing": "Inhale on the way down, brace, exhale as you press up.",
+    "safetyNotes": "Use safety pins or a spotter when working near failure.",
+    "videoAsset": null
+  },
+  {
+    "id": "dumbbell-bench-press",
+    "name": "Dumbbell bench press",
+    "pattern": "HORIZONTAL_PUSH",
+    "primaryMuscles": [
+      "CHEST"
+    ],
+    "secondaryMuscles": [
+      "SHOULDERS",
+      "TRICEPS"
+    ],
+    "equipment": [
+      "DUMBBELL",
+      "BENCH"
+    ],
+    "difficulty": 2,
+    "isCompound": true,
+    "tempo": "2-0-1",
+    "defaultRestSeconds": 120,
+    "setup": "Sit on the bench with dumbbells on your thighs, then kick them back as you lie down.",
+    "cues": [
+      "Plant your feet and set your shoulder blades back and down.",
+      "Hold the dumbbells over your chest with a slight inward tilt.",
+      "Lower until your upper arms are level with your torso.",
+      "Press up and slightly together without clanging the dumbbells."
+    ],
+    "mistakes": [
+      "Flaring the elbows out",
+      "Letting the dumbbells drift toward the head",
+      "Half reps at the top"
+    ],
+    "breathing": "Inhale down, exhale up.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "incline-dumbbell-press",
+    "name": "Incline dumbbell press",
+    "pattern": "HORIZONTAL_PUSH",
+    "primaryMuscles": [
+      "CHEST"
+    ],
+    "secondaryMuscles": [
+      "SHOULDERS",
+      "TRICEPS"
+    ],
+    "equipment": [
+      "DUMBBELL",
+      "BENCH"
+    ],
+    "difficulty": 2,
+    "isCompound": true,
+    "tempo": "2-0-1",
+    "defaultRestSeconds": 120,
+    "setup": "Set the bench to about 30 degrees \u2014 steeper turns it into a shoulder press.",
+    "cues": [
+      "Sit back with the dumbbells over your upper chest.",
+      "Keep your ribs down and lower to a comfortable stretch.",
+      "Press up and slightly back over the collarbone."
+    ],
+    "mistakes": [
+      "Bench angle too steep",
+      "Arching the lower back off the pad",
+      "Pressing straight up instead of over the upper chest"
+    ],
+    "breathing": "Inhale down, exhale up.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "machine-chest-press",
+    "name": "Machine chest press",
+    "pattern": "HORIZONTAL_PUSH",
+    "primaryMuscles": [
+      "CHEST"
+    ],
+    "secondaryMuscles": [
+      "TRICEPS"
+    ],
+    "equipment": [
+      "MACHINE"
+    ],
+    "difficulty": 1,
+    "isCompound": true,
+    "tempo": "2-0-1",
+    "defaultRestSeconds": 90,
+    "setup": "Adjust the seat so the handles sit at mid-chest height.",
+    "cues": [
+      "Sit tall with your shoulders back against the pad.",
+      "Press until your elbows are almost straight.",
+      "Return slowly until you feel a stretch across the chest."
+    ],
+    "mistakes": [
+      "Letting the shoulders roll forward",
+      "Slamming the weight stack"
+    ],
+    "breathing": "Exhale as you press, inhale as you return.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "push-up",
+    "name": "Push-up",
+    "pattern": "HORIZONTAL_PUSH",
+    "primaryMuscles": [
+      "CHEST"
+    ],
+    "secondaryMuscles": [
+      "SHOULDERS",
+      "TRICEPS",
+      "CORE"
+    ],
+    "equipment": [
+      "BODYWEIGHT"
+    ],
+    "difficulty": 1,
+    "isCompound": true,
+    "tempo": "2-0-1",
+    "defaultRestSeconds": 75,
+    "setup": "Hands slightly wider than shoulders, body in one line from head to heels.",
+    "cues": [
+      "Brace your abs and squeeze your glutes.",
+      "Lower your chest until it is a fist from the floor.",
+      "Push the floor away, keeping your elbows at about 45 degrees.",
+      "Elevate your hands on a bench to make it easier, elevate your feet to make it harder."
+    ],
+    "mistakes": [
+      "Hips sagging",
+      "Head dropping first",
+      "Elbows flared straight out"
+    ],
+    "breathing": "Inhale down, exhale up.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "cable-chest-fly",
+    "name": "Cable chest fly",
+    "pattern": "HORIZONTAL_PUSH",
+    "primaryMuscles": [
+      "CHEST"
+    ],
+    "secondaryMuscles": [
+      "SHOULDERS"
+    ],
+    "equipment": [
+      "CABLE"
+    ],
+    "difficulty": 2,
+    "isCompound": false,
+    "tempo": "2-1-1",
+    "defaultRestSeconds": 75,
+    "setup": "Set both pulleys at chest height and take a staggered stance.",
+    "cues": [
+      "Keep a soft bend in the elbows for the whole set.",
+      "Bring your hands together in front of your sternum.",
+      "Open slowly until you feel a stretch, never past your shoulders."
+    ],
+    "mistakes": [
+      "Straightening the elbows",
+      "Using momentum from the torso"
+    ],
+    "breathing": "Exhale as you bring the hands together.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "parallel-bar-dip",
+    "name": "Parallel bar dip",
+    "pattern": "HORIZONTAL_PUSH",
+    "primaryMuscles": [
+      "CHEST"
+    ],
+    "secondaryMuscles": [
+      "TRICEPS",
+      "SHOULDERS"
+    ],
+    "equipment": [
+      "PULLUP_BAR"
+    ],
+    "difficulty": 3,
+    "isCompound": true,
+    "tempo": "3-0-1",
+    "defaultRestSeconds": 120,
+    "setup": "Support yourself on the bars with straight arms, shoulders pulled down.",
+    "cues": [
+      "Lean forward slightly for chest emphasis.",
+      "Lower until your upper arms are parallel to the floor.",
+      "Press back up without shrugging your shoulders to your ears."
+    ],
+    "mistakes": [
+      "Dropping too deep",
+      "Shoulders shrugging up",
+      "Kipping the legs"
+    ],
+    "breathing": "Inhale down, exhale up.",
+    "safetyNotes": "Skip if you feel any pinching at the front of the shoulder.",
+    "videoAsset": null
+  },
+  {
+    "id": "barbell-overhead-press",
+    "name": "Barbell overhead press",
+    "pattern": "VERTICAL_PUSH",
+    "primaryMuscles": [
+      "SHOULDERS"
+    ],
+    "secondaryMuscles": [
+      "TRICEPS",
+      "CORE"
+    ],
+    "equipment": [
+      "BARBELL"
+    ],
+    "difficulty": 3,
+    "isCompound": true,
+    "tempo": "2-0-1",
+    "defaultRestSeconds": 150,
+    "setup": "Bar on your front delts, hands just outside shoulder width, feet hip width.",
+    "cues": [
+      "Squeeze your glutes and keep your ribs down.",
+      "Press the bar up past your chin, moving your head back slightly.",
+      "Lock out with the bar over your ears, then return to the collarbone."
+    ],
+    "mistakes": [
+      "Leaning back and turning it into an incline press",
+      "Pressing around the chin instead of back"
+    ],
+    "breathing": "Inhale before the rep, exhale at the top.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "dumbbell-shoulder-press",
+    "name": "Dumbbell shoulder press",
+    "pattern": "VERTICAL_PUSH",
+    "primaryMuscles": [
+      "SHOULDERS"
+    ],
+    "secondaryMuscles": [
+      "TRICEPS"
+    ],
+    "equipment": [
+      "DUMBBELL",
+      "BENCH"
+    ],
+    "difficulty": 2,
+    "isCompound": true,
+    "tempo": "2-0-1",
+    "defaultRestSeconds": 120,
+    "setup": "Sit on an upright bench with the dumbbells at shoulder height, palms forward.",
+    "cues": [
+      "Brace your core and keep your back against the pad.",
+      "Press the dumbbells up and slightly in.",
+      "Lower until your elbows are just below shoulder level."
+    ],
+    "mistakes": [
+      "Arching the lower back",
+      "Pressing in front of the body"
+    ],
+    "breathing": "Exhale as you press up.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "machine-shoulder-press",
+    "name": "Machine shoulder press",
+    "pattern": "VERTICAL_PUSH",
+    "primaryMuscles": [
+      "SHOULDERS"
+    ],
+    "secondaryMuscles": [
+      "TRICEPS"
+    ],
+    "equipment": [
+      "MACHINE"
+    ],
+    "difficulty": 1,
+    "isCompound": true,
+    "tempo": "2-0-1",
+    "defaultRestSeconds": 90,
+    "setup": "Set the seat so the handles start at shoulder height.",
+    "cues": [
+      "Sit tall, shoulders back.",
+      "Press up without locking out aggressively.",
+      "Lower slowly to the start."
+    ],
+    "mistakes": [
+      "Seat too low",
+      "Bouncing out of the bottom"
+    ],
+    "breathing": "Exhale up, inhale down.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "pike-push-up",
+    "name": "Pike push-up",
+    "pattern": "VERTICAL_PUSH",
+    "primaryMuscles": [
+      "SHOULDERS"
+    ],
+    "secondaryMuscles": [
+      "TRICEPS",
+      "CORE"
+    ],
+    "equipment": [
+      "BODYWEIGHT"
+    ],
+    "difficulty": 3,
+    "isCompound": true,
+    "tempo": "2-0-1",
+    "defaultRestSeconds": 90,
+    "setup": "From a push-up position, walk your feet in and lift your hips into an upside-down V.",
+    "cues": [
+      "Keep your hips high and your head between your hands.",
+      "Lower the crown of your head toward the floor.",
+      "Press back up and keep the hips stacked."
+    ],
+    "mistakes": [
+      "Hips dropping",
+      "Head forward instead of down"
+    ],
+    "breathing": "Inhale down, exhale up.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "band-overhead-press",
+    "name": "Band overhead press",
+    "pattern": "VERTICAL_PUSH",
+    "primaryMuscles": [
+      "SHOULDERS"
+    ],
+    "secondaryMuscles": [
+      "TRICEPS"
+    ],
+    "equipment": [
+      "BAND"
+    ],
+    "difficulty": 1,
+    "isCompound": true,
+    "tempo": "2-0-1",
+    "defaultRestSeconds": 60,
+    "setup": "Stand on the middle of the band, handles at shoulder height.",
+    "cues": [
+      "Brace your abs so you don't lean back.",
+      "Press overhead until the arms are straight.",
+      "Resist the band on the way down."
+    ],
+    "mistakes": [
+      "Leaning back",
+      "Letting the elbows flare behind the body"
+    ],
+    "breathing": "Exhale as you press.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "barbell-row",
+    "name": "Barbell row",
+    "pattern": "HORIZONTAL_PULL",
+    "primaryMuscles": [
+      "BACK"
+    ],
+    "secondaryMuscles": [
+      "LATS",
+      "BICEPS",
+      "TRAPS"
+    ],
+    "equipment": [
+      "BARBELL"
+    ],
+    "difficulty": 3,
+    "isCompound": true,
+    "tempo": "2-1-1",
+    "defaultRestSeconds": 120,
+    "setup": "Hinge until your torso is about 45 degrees, bar hanging under your shoulders.",
+    "cues": [
+      "Brace your torso and keep a neutral spine.",
+      "Pull the bar to your lower ribs, driving your elbows back.",
+      "Squeeze the shoulder blades, then lower under control."
+    ],
+    "mistakes": [
+      "Standing up as you pull",
+      "Jerking the bar with the lower back",
+      "Curling with the wrists"
+    ],
+    "breathing": "Exhale as you pull.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "dumbbell-one-arm-row",
+    "name": "Single-arm dumbbell row",
+    "pattern": "HORIZONTAL_PULL",
+    "primaryMuscles": [
+      "BACK"
+    ],
+    "secondaryMuscles": [
+      "LATS",
+      "BICEPS"
+    ],
+    "equipment": [
+      "DUMBBELL",
+      "BENCH"
+    ],
+    "difficulty": 2,
+    "isCompound": true,
+    "tempo": "2-1-1",
+    "defaultRestSeconds": 90,
+    "setup": "One hand and knee on the bench, the other foot on the floor, back flat.",
+    "cues": [
+      "Let the dumbbell hang under your shoulder.",
+      "Row toward your hip, not your armpit.",
+      "Lower until you feel the lat stretch."
+    ],
+    "mistakes": [
+      "Rotating the torso open",
+      "Shrugging the shoulder to your ear"
+    ],
+    "breathing": "Exhale as you row.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "seated-cable-row",
+    "name": "Seated cable row",
+    "pattern": "HORIZONTAL_PULL",
+    "primaryMuscles": [
+      "BACK"
+    ],
+    "secondaryMuscles": [
+      "LATS",
+      "BICEPS"
+    ],
+    "equipment": [
+      "CABLE"
+    ],
+    "difficulty": 1,
+    "isCompound": true,
+    "tempo": "2-1-1",
+    "defaultRestSeconds": 90,
+    "setup": "Feet on the platform, knees soft, torso upright.",
+    "cues": [
+      "Reach forward without rounding your lower back.",
+      "Pull the handle to your navel and squeeze.",
+      "Return slowly, letting the shoulder blades open."
+    ],
+    "mistakes": [
+      "Leaning back and forth to move the weight",
+      "Shrugging"
+    ],
+    "breathing": "Exhale as you pull.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "inverted-row",
+    "name": "Inverted row",
+    "pattern": "HORIZONTAL_PULL",
+    "primaryMuscles": [
+      "BACK"
+    ],
+    "secondaryMuscles": [
+      "LATS",
+      "BICEPS",
+      "CORE"
+    ],
+    "equipment": [
+      "PULLUP_BAR"
+    ],
+    "difficulty": 2,
+    "isCompound": true,
+    "tempo": "2-1-1",
+    "defaultRestSeconds": 90,
+    "setup": "Set a bar at hip height, lie underneath it and grip shoulder width.",
+    "cues": [
+      "Keep your body in one straight line, heels on the floor.",
+      "Pull your chest toward the bar, elbows to your sides.",
+      "Lower until your arms are straight."
+    ],
+    "mistakes": [
+      "Hips sagging",
+      "Pulling with the neck"
+    ],
+    "breathing": "Exhale as you pull up.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "band-seated-row",
+    "name": "Band seated row",
+    "pattern": "HORIZONTAL_PULL",
+    "primaryMuscles": [
+      "BACK"
+    ],
+    "secondaryMuscles": [
+      "LATS",
+      "BICEPS"
+    ],
+    "equipment": [
+      "BAND"
+    ],
+    "difficulty": 1,
+    "isCompound": true,
+    "tempo": "2-1-1",
+    "defaultRestSeconds": 60,
+    "setup": "Loop the band around your feet and sit tall.",
+    "cues": [
+      "Sit with a neutral spine and slight knee bend.",
+      "Pull the band to your waist, elbows back.",
+      "Control the return until the arms are straight."
+    ],
+    "mistakes": [
+      "Rounding the back",
+      "Using the legs to help"
+    ],
+    "breathing": "Exhale as you pull.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "machine-row",
+    "name": "Chest-supported machine row",
+    "pattern": "HORIZONTAL_PULL",
+    "primaryMuscles": [
+      "BACK"
+    ],
+    "secondaryMuscles": [
+      "LATS",
+      "BICEPS"
+    ],
+    "equipment": [
+      "MACHINE"
+    ],
+    "difficulty": 1,
+    "isCompound": true,
+    "tempo": "2-1-1",
+    "defaultRestSeconds": 90,
+    "setup": "Chest against the pad, feet planted.",
+    "cues": [
+      "Let the arms extend fully with the shoulder blades forward.",
+      "Pull the handles back and squeeze.",
+      "Return slowly."
+    ],
+    "mistakes": [
+      "Pulling with the arms only",
+      "Lifting the chest off the pad"
+    ],
+    "breathing": "Exhale as you pull.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "pull-up",
+    "name": "Pull-up",
+    "pattern": "VERTICAL_PULL",
+    "primaryMuscles": [
+      "LATS"
+    ],
+    "secondaryMuscles": [
+      "BACK",
+      "BICEPS",
+      "CORE"
+    ],
+    "equipment": [
+      "PULLUP_BAR"
+    ],
+    "difficulty": 4,
+    "isCompound": true,
+    "tempo": "2-0-1",
+    "defaultRestSeconds": 150,
+    "setup": "Hang from the bar with an overhand grip slightly wider than shoulders.",
+    "cues": [
+      "Start from a full hang with active shoulders.",
+      "Pull your elbows down and back until your chin clears the bar.",
+      "Lower under control to a straight-arm hang."
+    ],
+    "mistakes": [
+      "Kipping the legs",
+      "Half reps",
+      "Shrugging at the bottom"
+    ],
+    "breathing": "Exhale as you pull up.",
+    "safetyNotes": "Use a band or negatives until you can do 5 clean reps.",
+    "videoAsset": null
+  },
+  {
+    "id": "lat-pulldown",
+    "name": "Lat pulldown",
+    "pattern": "VERTICAL_PULL",
+    "primaryMuscles": [
+      "LATS"
+    ],
+    "secondaryMuscles": [
+      "BACK",
+      "BICEPS"
+    ],
+    "equipment": [
+      "CABLE"
+    ],
+    "difficulty": 1,
+    "isCompound": true,
+    "tempo": "2-1-1",
+    "defaultRestSeconds": 90,
+    "setup": "Thigh pad snug, hands just outside shoulder width.",
+    "cues": [
+      "Sit tall and lean back only about 10 degrees.",
+      "Pull the bar to your collarbone, elbows down.",
+      "Let the bar rise until the arms are straight."
+    ],
+    "mistakes": [
+      "Pulling behind the neck",
+      "Rocking the torso for momentum"
+    ],
+    "breathing": "Exhale as you pull down.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "band-lat-pulldown",
+    "name": "Band lat pulldown",
+    "pattern": "VERTICAL_PULL",
+    "primaryMuscles": [
+      "LATS"
+    ],
+    "secondaryMuscles": [
+      "BACK",
+      "BICEPS"
+    ],
+    "equipment": [
+      "BAND"
+    ],
+    "difficulty": 1,
+    "isCompound": true,
+    "tempo": "2-1-1",
+    "defaultRestSeconds": 60,
+    "setup": "Anchor the band high above you and kneel or sit.",
+    "cues": [
+      "Keep your ribs down and chest tall.",
+      "Pull your elbows down toward your hips.",
+      "Return slowly against the band tension."
+    ],
+    "mistakes": [
+      "Leaning back too far",
+      "Shrugging the shoulders"
+    ],
+    "breathing": "Exhale as you pull.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "negative-pull-up",
+    "name": "Negative pull-up",
+    "pattern": "VERTICAL_PULL",
+    "primaryMuscles": [
+      "LATS"
+    ],
+    "secondaryMuscles": [
+      "BACK",
+      "BICEPS"
+    ],
+    "equipment": [
+      "PULLUP_BAR"
+    ],
+    "difficulty": 2,
+    "isCompound": true,
+    "tempo": "4-0-1",
+    "defaultRestSeconds": 120,
+    "setup": "Jump or step up so your chin is over the bar.",
+    "cues": [
+      "Start at the top with your chin above the bar.",
+      "Lower yourself as slowly as you can \u2014 aim for 4 seconds.",
+      "Step down and reset instead of dropping."
+    ],
+    "mistakes": [
+      "Dropping fast",
+      "Starting from a dead hang without control"
+    ],
+    "breathing": "Breathe steadily; this is a slow eccentric.",
+    "safetyNotes": "Perfect stepping stone toward your first pull-up.",
+    "videoAsset": null
+  },
+  {
+    "id": "barbell-back-squat",
+    "name": "Barbell back squat",
+    "pattern": "SQUAT",
+    "primaryMuscles": [
+      "QUADS"
+    ],
+    "secondaryMuscles": [
+      "GLUTES",
+      "HAMSTRINGS",
+      "CORE"
+    ],
+    "equipment": [
+      "BARBELL"
+    ],
+    "difficulty": 4,
+    "isCompound": true,
+    "tempo": "3-0-1",
+    "defaultRestSeconds": 180,
+    "setup": "Bar on your upper back, feet shoulder width, toes slightly out.",
+    "cues": [
+      "Take a breath and brace before you move.",
+      "Sit down and back, knees tracking over the toes.",
+      "Descend until your hip crease passes your knee, or as deep as you can control.",
+      "Drive through the whole foot to stand."
+    ],
+    "mistakes": [
+      "Knees caving in",
+      "Heels lifting",
+      "Rounding the lower back at the bottom"
+    ],
+    "breathing": "Inhale and brace at the top, exhale as you stand.",
+    "safetyNotes": "Use a rack with safety pins; this is a technical lift.",
+    "videoAsset": null
+  },
+  {
+    "id": "goblet-squat",
+    "name": "Goblet squat",
+    "pattern": "SQUAT",
+    "primaryMuscles": [
+      "QUADS"
+    ],
+    "secondaryMuscles": [
+      "GLUTES",
+      "CORE"
+    ],
+    "equipment": [
+      "DUMBBELL"
+    ],
+    "difficulty": 2,
+    "isCompound": true,
+    "tempo": "3-0-1",
+    "defaultRestSeconds": 90,
+    "setup": "Hold one dumbbell vertically against your chest.",
+    "cues": [
+      "Keep the dumbbell tight to your sternum.",
+      "Sit straight down with your elbows inside your knees.",
+      "Stand up and squeeze your glutes at the top."
+    ],
+    "mistakes": [
+      "Letting the chest collapse",
+      "Heels lifting"
+    ],
+    "breathing": "Inhale down, exhale up.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "leg-press",
+    "name": "Leg press",
+    "pattern": "SQUAT",
+    "primaryMuscles": [
+      "QUADS"
+    ],
+    "secondaryMuscles": [
+      "GLUTES",
+      "HAMSTRINGS"
+    ],
+    "equipment": [
+      "MACHINE"
+    ],
+    "difficulty": 1,
+    "isCompound": true,
+    "tempo": "2-0-1",
+    "defaultRestSeconds": 120,
+    "setup": "Feet shoulder width on the platform, back and hips flat against the pad.",
+    "cues": [
+      "Lower until your knees reach about 90 degrees.",
+      "Keep the knees tracking over the toes.",
+      "Press without locking the knees aggressively."
+    ],
+    "mistakes": [
+      "Letting the lower back round off the pad",
+      "Bouncing out of the bottom"
+    ],
+    "breathing": "Inhale down, exhale up.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "bodyweight-squat",
+    "name": "Bodyweight squat",
+    "pattern": "SQUAT",
+    "primaryMuscles": [
+      "QUADS"
+    ],
+    "secondaryMuscles": [
+      "GLUTES",
+      "CORE"
+    ],
+    "equipment": [
+      "BODYWEIGHT"
+    ],
+    "difficulty": 1,
+    "isCompound": true,
+    "tempo": "2-1-1",
+    "defaultRestSeconds": 60,
+    "setup": "Feet shoulder width, arms out in front for balance.",
+    "cues": [
+      "Sit back and down with your chest tall.",
+      "Go as deep as your ankles allow.",
+      "Stand up and finish with the glutes."
+    ],
+    "mistakes": [
+      "Rushing the reps",
+      "Letting the knees fall inward"
+    ],
+    "breathing": "Inhale down, exhale up.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "barbell-deadlift",
+    "name": "Barbell deadlift",
+    "pattern": "HINGE",
+    "primaryMuscles": [
+      "HAMSTRINGS"
+    ],
+    "secondaryMuscles": [
+      "GLUTES",
+      "BACK",
+      "TRAPS",
+      "CORE"
+    ],
+    "equipment": [
+      "BARBELL"
+    ],
+    "difficulty": 5,
+    "isCompound": true,
+    "tempo": "2-0-2",
+    "defaultRestSeconds": 180,
+    "setup": "Bar over your mid-foot, shins close, hands just outside your knees.",
+    "cues": [
+      "Take the slack out of the bar before you pull.",
+      "Push the floor away and keep the bar against your legs.",
+      "Stand tall with your hips and shoulders rising together.",
+      "Hinge back down, bar tracking over the mid-foot."
+    ],
+    "mistakes": [
+      "Rounding the lower back",
+      "Yanking the bar",
+      "Hyperextending at the top"
+    ],
+    "breathing": "Inhale and brace hard, exhale after lockout.",
+    "safetyNotes": "Learn this with light weight or a coach first.",
+    "videoAsset": null
+  },
+  {
+    "id": "dumbbell-romanian-deadlift",
+    "name": "Dumbbell Romanian deadlift",
+    "pattern": "HINGE",
+    "primaryMuscles": [
+      "HAMSTRINGS"
+    ],
+    "secondaryMuscles": [
+      "GLUTES",
+      "BACK"
+    ],
+    "equipment": [
+      "DUMBBELL"
+    ],
+    "difficulty": 2,
+    "isCompound": true,
+    "tempo": "3-0-1",
+    "defaultRestSeconds": 120,
+    "setup": "Dumbbells in front of your thighs, feet hip width, knees soft.",
+    "cues": [
+      "Push your hips back and keep the dumbbells close to your legs.",
+      "Stop when you feel a strong hamstring stretch or your back wants to round.",
+      "Stand by driving your hips forward."
+    ],
+    "mistakes": [
+      "Squatting the weight down",
+      "Rounding the back to go lower"
+    ],
+    "breathing": "Inhale down, exhale as you stand.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "glute-bridge",
+    "name": "Glute bridge",
+    "pattern": "HINGE",
+    "primaryMuscles": [
+      "GLUTES"
+    ],
+    "secondaryMuscles": [
+      "HAMSTRINGS",
+      "CORE"
+    ],
+    "equipment": [
+      "BODYWEIGHT"
+    ],
+    "difficulty": 1,
+    "isCompound": true,
+    "tempo": "2-1-1",
+    "defaultRestSeconds": 60,
+    "setup": "Lie on your back, heels close to your glutes.",
+    "cues": [
+      "Tuck your pelvis slightly and press through your heels.",
+      "Lift until your hips, knees and shoulders form a line.",
+      "Squeeze the glutes for a second at the top."
+    ],
+    "mistakes": [
+      "Arching the lower back instead of using the glutes",
+      "Pushing through the toes"
+    ],
+    "breathing": "Exhale as you lift.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "cable-pull-through",
+    "name": "Cable pull-through",
+    "pattern": "HINGE",
+    "primaryMuscles": [
+      "GLUTES"
+    ],
+    "secondaryMuscles": [
+      "HAMSTRINGS",
+      "CORE"
+    ],
+    "equipment": [
+      "CABLE"
+    ],
+    "difficulty": 2,
+    "isCompound": true,
+    "tempo": "2-1-1",
+    "defaultRestSeconds": 90,
+    "setup": "Face away from a low pulley, rope between your legs.",
+    "cues": [
+      "Hinge with a flat back until you feel the hamstrings load.",
+      "Drive your hips forward to stand tall.",
+      "Squeeze the glutes at the top without leaning back."
+    ],
+    "mistakes": [
+      "Using the arms to pull",
+      "Overextending the lower back"
+    ],
+    "breathing": "Exhale as you stand.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "kettlebell-swing",
+    "name": "Kettlebell swing",
+    "pattern": "HINGE",
+    "primaryMuscles": [
+      "GLUTES"
+    ],
+    "secondaryMuscles": [
+      "HAMSTRINGS",
+      "CORE",
+      "BACK"
+    ],
+    "equipment": [
+      "KETTLEBELL"
+    ],
+    "difficulty": 2,
+    "isCompound": true,
+    "tempo": "1-0-1",
+    "defaultRestSeconds": 90,
+    "setup": "Kettlebell on the floor a foot in front of you, feet shoulder width.",
+    "cues": [
+      "Hike the bell back between your legs like a snap.",
+      "Stand up fast and let the bell float to chest height.",
+      "Let it fall back into the next hinge."
+    ],
+    "mistakes": [
+      "Squatting the bell up",
+      "Using the arms to lift",
+      "Leaning back at the top"
+    ],
+    "breathing": "Sharp exhale at the top of each swing.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "single-leg-hip-thrust",
+    "name": "Single-leg hip thrust",
+    "pattern": "HINGE",
+    "primaryMuscles": [
+      "GLUTES"
+    ],
+    "secondaryMuscles": [
+      "HAMSTRINGS",
+      "CORE"
+    ],
+    "equipment": [
+      "BODYWEIGHT"
+    ],
+    "difficulty": 2,
+    "isCompound": true,
+    "tempo": "2-1-1",
+    "defaultRestSeconds": 75,
+    "setup": "Lie on your back with one foot planted, the other leg extended.",
+    "cues": [
+      "Keep the pelvis level as you press up.",
+      "Drive through the planted heel.",
+      "Lower slowly without letting the hip drop."
+    ],
+    "mistakes": [
+      "Twisting the pelvis",
+      "Using the lower back to lift"
+    ],
+    "breathing": "Exhale as you lift.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "walking-lunge",
+    "name": "Walking lunge",
+    "pattern": "LUNGE",
+    "primaryMuscles": [
+      "QUADS"
+    ],
+    "secondaryMuscles": [
+      "GLUTES",
+      "HAMSTRINGS",
+      "CORE"
+    ],
+    "equipment": [
+      "DUMBBELL"
+    ],
+    "difficulty": 2,
+    "isCompound": true,
+    "tempo": "2-0-1",
+    "defaultRestSeconds": 90,
+    "setup": "Dumbbells at your sides, stand tall.",
+    "cues": [
+      "Step forward and lower until both knees are about 90 degrees.",
+      "Push through the front foot to step through.",
+      "Keep the torso upright the whole time."
+    ],
+    "mistakes": [
+      "Front knee collapsing inward",
+      "Leaning forward",
+      "Crashing the back knee"
+    ],
+    "breathing": "Breathe steadily; exhale as you step up.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "reverse-lunge",
+    "name": "Reverse lunge",
+    "pattern": "LUNGE",
+    "primaryMuscles": [
+      "QUADS"
+    ],
+    "secondaryMuscles": [
+      "GLUTES",
+      "CORE"
+    ],
+    "equipment": [
+      "BODYWEIGHT"
+    ],
+    "difficulty": 1,
+    "isCompound": true,
+    "tempo": "2-0-1",
+    "defaultRestSeconds": 75,
+    "setup": "Stand tall with your feet hip width.",
+    "cues": [
+      "Step back and lower with control.",
+      "Keep the front shin close to vertical.",
+      "Push through the front foot to return."
+    ],
+    "mistakes": [
+      "Stepping too narrow and losing balance",
+      "Bouncing at the bottom"
+    ],
+    "breathing": "Inhale as you step back, exhale as you return.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "bulgarian-split-squat",
+    "name": "Bulgarian split squat",
+    "pattern": "LUNGE",
+    "primaryMuscles": [
+      "QUADS"
+    ],
+    "secondaryMuscles": [
+      "GLUTES",
+      "HAMSTRINGS"
+    ],
+    "equipment": [
+      "DUMBBELL",
+      "BENCH"
+    ],
+    "difficulty": 3,
+    "isCompound": true,
+    "tempo": "3-0-1",
+    "defaultRestSeconds": 105,
+    "setup": "Rear foot on a bench, front foot about two feet forward.",
+    "cues": [
+      "Let the back knee travel down toward the floor.",
+      "Keep most of the weight on the front leg.",
+      "Stand up without pushing off the back toes."
+    ],
+    "mistakes": [
+      "Front foot too close to the bench",
+      "Leaning forward",
+      "Losing balance from a narrow stance"
+    ],
+    "breathing": "Inhale down, exhale up.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "barbell-split-squat",
+    "name": "Barbell split squat",
+    "pattern": "LUNGE",
+    "primaryMuscles": [
+      "QUADS"
+    ],
+    "secondaryMuscles": [
+      "GLUTES",
+      "CORE"
+    ],
+    "equipment": [
+      "BARBELL"
+    ],
+    "difficulty": 4,
+    "isCompound": true,
+    "tempo": "3-0-1",
+    "defaultRestSeconds": 120,
+    "setup": "Bar on your back, staggered stance.",
+    "cues": [
+      "Keep the torso vertical and the pelvis square.",
+      "Lower straight down, back knee toward the floor.",
+      "Drive through the front foot to stand."
+    ],
+    "mistakes": [
+      "Twisting the hips",
+      "Front knee travelling too far forward"
+    ],
+    "breathing": "Inhale down, exhale up.",
+    "safetyNotes": "Use a rack for balance while learning the pattern.",
+    "videoAsset": null
+  },
+  {
+    "id": "leg-curl-machine",
+    "name": "Lying leg curl",
+    "pattern": "LEG_ISOLATION",
+    "primaryMuscles": [
+      "HAMSTRINGS"
+    ],
+    "secondaryMuscles": [],
+    "equipment": [
+      "MACHINE"
+    ],
+    "difficulty": 1,
+    "isCompound": false,
+    "tempo": "2-1-1",
+    "defaultRestSeconds": 75,
+    "setup": "Pad on the back of your ankles, hips down on the bench.",
+    "cues": [
+      "Curl your heels toward your glutes.",
+      "Keep the hips pressing into the pad.",
+      "Lower slowly, resisting to the end."
+    ],
+    "mistakes": [
+      "Hips lifting",
+      "Swinging the weight"
+    ],
+    "breathing": "Exhale as you curl.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "leg-extension-machine",
+    "name": "Leg extension",
+    "pattern": "LEG_ISOLATION",
+    "primaryMuscles": [
+      "QUADS"
+    ],
+    "secondaryMuscles": [],
+    "equipment": [
+      "MACHINE"
+    ],
+    "difficulty": 1,
+    "isCompound": false,
+    "tempo": "2-1-1",
+    "defaultRestSeconds": 75,
+    "setup": "Set the pad on your shins, knees in line with the pivot.",
+    "cues": [
+      "Extend the knees smoothly.",
+      "Pause briefly at the top.",
+      "Lower under control to about 90 degrees."
+    ],
+    "mistakes": [
+      "Snapping into lockout",
+      "Lifting the hips off the seat"
+    ],
+    "breathing": "Exhale as you extend.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "banded-hamstring-curl",
+    "name": "Banded hamstring curl",
+    "pattern": "LEG_ISOLATION",
+    "primaryMuscles": [
+      "HAMSTRINGS"
+    ],
+    "secondaryMuscles": [],
+    "equipment": [
+      "BAND"
+    ],
+    "difficulty": 2,
+    "isCompound": false,
+    "tempo": "2-1-1",
+    "defaultRestSeconds": 60,
+    "setup": "Anchor the band low in front of you and loop it around one ankle, lying face down.",
+    "cues": [
+      "Keep the hips still as you curl your heel to your glute.",
+      "Squeeze at the top for a second.",
+      "Lower slowly against the band."
+    ],
+    "mistakes": [
+      "Arching the lower back",
+      "Rushing the return"
+    ],
+    "breathing": "Exhale as you curl.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "dumbbell-step-up",
+    "name": "Dumbbell step-up",
+    "pattern": "LEG_ISOLATION",
+    "primaryMuscles": [
+      "QUADS"
+    ],
+    "secondaryMuscles": [
+      "GLUTES"
+    ],
+    "equipment": [
+      "DUMBBELL",
+      "BENCH"
+    ],
+    "difficulty": 2,
+    "isCompound": false,
+    "tempo": "2-1-1",
+    "defaultRestSeconds": 90,
+    "setup": "Box or bench at knee height, dumbbells at your sides.",
+    "cues": [
+      "Place the whole front foot on the box.",
+      "Drive through the front leg to stand up.",
+      "Lower slowly to the floor."
+    ],
+    "mistakes": [
+      "Pushing off the back foot",
+      "Using a box that is too high"
+    ],
+    "breathing": "Exhale as you step up.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "barbell-curl",
+    "name": "Barbell curl",
+    "pattern": "BICEPS_ISOLATION",
+    "primaryMuscles": [
+      "BICEPS"
+    ],
+    "secondaryMuscles": [
+      "FOREARMS"
+    ],
+    "equipment": [
+      "BARBELL"
+    ],
+    "difficulty": 2,
+    "isCompound": false,
+    "tempo": "2-1-1",
+    "defaultRestSeconds": 75,
+    "setup": "Stand tall with an underhand grip at shoulder width.",
+    "cues": [
+      "Keep your elbows pinned to your sides.",
+      "Curl to chest height without swinging.",
+      "Lower fully to straight arms."
+    ],
+    "mistakes": [
+      "Swinging the torso",
+      "Elbows drifting forward"
+    ],
+    "breathing": "Exhale as you curl.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "dumbbell-curl",
+    "name": "Dumbbell curl",
+    "pattern": "BICEPS_ISOLATION",
+    "primaryMuscles": [
+      "BICEPS"
+    ],
+    "secondaryMuscles": [
+      "FOREARMS"
+    ],
+    "equipment": [
+      "DUMBBELL"
+    ],
+    "difficulty": 1,
+    "isCompound": false,
+    "tempo": "2-1-1",
+    "defaultRestSeconds": 60,
+    "setup": "Stand with dumbbells at your sides, palms forward.",
+    "cues": [
+      "Curl one arm at a time, elbow fixed.",
+      "Squeeze at the top, rotate the palm slightly up.",
+      "Lower slowly to a full stretch."
+    ],
+    "mistakes": [
+      "Using the shoulders to lift",
+      "Partial reps"
+    ],
+    "breathing": "Exhale as you curl.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "cable-curl",
+    "name": "Cable curl",
+    "pattern": "BICEPS_ISOLATION",
+    "primaryMuscles": [
+      "BICEPS"
+    ],
+    "secondaryMuscles": [
+      "FOREARMS"
+    ],
+    "equipment": [
+      "CABLE"
+    ],
+    "difficulty": 1,
+    "isCompound": false,
+    "tempo": "2-1-1",
+    "defaultRestSeconds": 60,
+    "setup": "Low pulley with a straight or EZ bar.",
+    "cues": [
+      "Keep tension by stopping just short of straight arms.",
+      "Curl up with the elbows still.",
+      "Control the eccentric."
+    ],
+    "mistakes": [
+      "Leaning back",
+      "Letting the weight drop"
+    ],
+    "breathing": "Exhale as you curl.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "band-curl",
+    "name": "Band curl",
+    "pattern": "BICEPS_ISOLATION",
+    "primaryMuscles": [
+      "BICEPS"
+    ],
+    "secondaryMuscles": [
+      "FOREARMS"
+    ],
+    "equipment": [
+      "BAND"
+    ],
+    "difficulty": 1,
+    "isCompound": false,
+    "tempo": "2-1-1",
+    "defaultRestSeconds": 45,
+    "setup": "Stand on the band, handles in each hand.",
+    "cues": [
+      "Keep the elbows at your sides.",
+      "Curl to chest height.",
+      "Resist on the way down."
+    ],
+    "mistakes": [
+      "Shrugging",
+      "Bouncing"
+    ],
+    "breathing": "Exhale as you curl.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "hammer-curl",
+    "name": "Hammer curl",
+    "pattern": "BICEPS_ISOLATION",
+    "primaryMuscles": [
+      "BICEPS"
+    ],
+    "secondaryMuscles": [
+      "FOREARMS"
+    ],
+    "equipment": [
+      "DUMBBELL"
+    ],
+    "difficulty": 1,
+    "isCompound": false,
+    "tempo": "2-1-1",
+    "defaultRestSeconds": 60,
+    "setup": "Dumbbells at your sides with a neutral grip.",
+    "cues": [
+      "Keep the palms facing each other throughout.",
+      "Curl without moving the elbows.",
+      "Lower slowly."
+    ],
+    "mistakes": [
+      "Rotating the wrists",
+      "Swinging"
+    ],
+    "breathing": "Exhale as you curl.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "cable-pushdown",
+    "name": "Cable pushdown",
+    "pattern": "TRICEPS_ISOLATION",
+    "primaryMuscles": [
+      "TRICEPS"
+    ],
+    "secondaryMuscles": [],
+    "equipment": [
+      "CABLE"
+    ],
+    "difficulty": 1,
+    "isCompound": false,
+    "tempo": "2-1-1",
+    "defaultRestSeconds": 60,
+    "setup": "High pulley with a rope or bar, elbows at your sides.",
+    "cues": [
+      "Keep the upper arms glued to your ribs.",
+      "Extend the elbows fully and squeeze.",
+      "Return until your forearms are just above parallel."
+    ],
+    "mistakes": [
+      "Elbows flaring out",
+      "Leaning over the weight"
+    ],
+    "breathing": "Exhale as you push down.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "overhead-dumbbell-extension",
+    "name": "Overhead dumbbell extension",
+    "pattern": "TRICEPS_ISOLATION",
+    "primaryMuscles": [
+      "TRICEPS"
+    ],
+    "secondaryMuscles": [],
+    "equipment": [
+      "DUMBBELL"
+    ],
+    "difficulty": 2,
+    "isCompound": false,
+    "tempo": "2-1-1",
+    "defaultRestSeconds": 75,
+    "setup": "Hold one dumbbell overhead with both hands, elbows pointing forward.",
+    "cues": [
+      "Keep the elbows close to your head.",
+      "Lower the dumbbell behind your head.",
+      "Extend to straight arms without flaring."
+    ],
+    "mistakes": [
+      "Elbows drifting wide",
+      "Arching the lower back"
+    ],
+    "breathing": "Exhale as you extend.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "bench-dip",
+    "name": "Bench dip",
+    "pattern": "TRICEPS_ISOLATION",
+    "primaryMuscles": [
+      "TRICEPS"
+    ],
+    "secondaryMuscles": [
+      "CHEST"
+    ],
+    "equipment": [
+      "BENCH"
+    ],
+    "difficulty": 2,
+    "isCompound": false,
+    "tempo": "2-0-1",
+    "defaultRestSeconds": 75,
+    "setup": "Hands on the bench just behind your hips, feet forward.",
+    "cues": [
+      "Keep your back close to the bench.",
+      "Lower until your elbows reach about 90 degrees.",
+      "Press up without shrugging."
+    ],
+    "mistakes": [
+      "Dropping too deep",
+      "Shoulders rolling forward"
+    ],
+    "breathing": "Inhale down, exhale up.",
+    "safetyNotes": "Skip if you feel shoulder pinching.",
+    "videoAsset": null
+  },
+  {
+    "id": "band-pushdown",
+    "name": "Band pushdown",
+    "pattern": "TRICEPS_ISOLATION",
+    "primaryMuscles": [
+      "TRICEPS"
+    ],
+    "secondaryMuscles": [],
+    "equipment": [
+      "BAND"
+    ],
+    "difficulty": 1,
+    "isCompound": false,
+    "tempo": "2-1-1",
+    "defaultRestSeconds": 45,
+    "setup": "Anchor the band high, grip both handles.",
+    "cues": [
+      "Keep the elbows at your sides.",
+      "Extend and squeeze the triceps.",
+      "Return slowly."
+    ],
+    "mistakes": [
+      "Using the shoulders",
+      "Leaning back"
+    ],
+    "breathing": "Exhale as you push down.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "skull-crusher",
+    "name": "Skull crusher",
+    "pattern": "TRICEPS_ISOLATION",
+    "primaryMuscles": [
+      "TRICEPS"
+    ],
+    "secondaryMuscles": [],
+    "equipment": [
+      "BARBELL",
+      "BENCH"
+    ],
+    "difficulty": 3,
+    "isCompound": false,
+    "tempo": "3-0-1",
+    "defaultRestSeconds": 75,
+    "setup": "Lie on a bench with the bar held over your chest, elbows narrow.",
+    "cues": [
+      "Lower the bar toward your forehead or just behind your head.",
+      "Keep the upper arms still.",
+      "Extend to straight arms."
+    ],
+    "mistakes": [
+      "Elbows flaring out",
+      "Moving the shoulders to help"
+    ],
+    "breathing": "Inhale down, exhale up.",
+    "safetyNotes": "Use a spotter or light weight while learning.",
+    "videoAsset": null
+  },
+  {
+    "id": "dumbbell-lateral-raise",
+    "name": "Dumbbell lateral raise",
+    "pattern": "SHOULDER_ISOLATION",
+    "primaryMuscles": [
+      "SHOULDERS"
+    ],
+    "secondaryMuscles": [],
+    "equipment": [
+      "DUMBBELL"
+    ],
+    "difficulty": 1,
+    "isCompound": false,
+    "tempo": "2-1-1",
+    "defaultRestSeconds": 60,
+    "setup": "Dumbbells at your sides, slight bend in the elbows.",
+    "cues": [
+      "Lead with your elbows, not your hands.",
+      "Raise to shoulder height only.",
+      "Lower slowly, staying in control."
+    ],
+    "mistakes": [
+      "Shrugging the traps",
+      "Swinging the weights up"
+    ],
+    "breathing": "Exhale as you raise.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "cable-lateral-raise",
+    "name": "Cable lateral raise",
+    "pattern": "SHOULDER_ISOLATION",
+    "primaryMuscles": [
+      "SHOULDERS"
+    ],
+    "secondaryMuscles": [],
+    "equipment": [
+      "CABLE"
+    ],
+    "difficulty": 2,
+    "isCompound": false,
+    "tempo": "2-1-1",
+    "defaultRestSeconds": 60,
+    "setup": "Low pulley set behind you, handle in the far hand.",
+    "cues": [
+      "Keep constant tension across the body.",
+      "Raise to shoulder height.",
+      "Lower slowly."
+    ],
+    "mistakes": [
+      "Leaning away from the stack",
+      "Using momentum"
+    ],
+    "breathing": "Exhale as you raise.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "band-lateral-raise",
+    "name": "Band lateral raise",
+    "pattern": "SHOULDER_ISOLATION",
+    "primaryMuscles": [
+      "SHOULDERS"
+    ],
+    "secondaryMuscles": [],
+    "equipment": [
+      "BAND"
+    ],
+    "difficulty": 1,
+    "isCompound": false,
+    "tempo": "2-1-1",
+    "defaultRestSeconds": 45,
+    "setup": "Stand on the band, handles at your sides.",
+    "cues": [
+      "Raise to shoulder height with soft elbows.",
+      "Keep the ribs down.",
+      "Lower slowly against tension."
+    ],
+    "mistakes": [
+      "Shrugging",
+      "Using the hips to bounce"
+    ],
+    "breathing": "Exhale as you raise.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "dumbbell-rear-delt-fly",
+    "name": "Bent-over rear delt fly",
+    "pattern": "SHOULDER_ISOLATION",
+    "primaryMuscles": [
+      "SHOULDERS"
+    ],
+    "secondaryMuscles": [
+      "BACK"
+    ],
+    "equipment": [
+      "DUMBBELL"
+    ],
+    "difficulty": 2,
+    "isCompound": false,
+    "tempo": "2-1-1",
+    "defaultRestSeconds": 60,
+    "setup": "Hinge forward until your torso is nearly parallel to the floor.",
+    "cues": [
+      "Let the dumbbells hang straight down.",
+      "Raise your arms out to the sides, leading with the pinkies.",
+      "Squeeze the rear delts, then lower."
+    ],
+    "mistakes": [
+      "Standing too upright",
+      "Using the lower back to lift"
+    ],
+    "breathing": "Exhale as you raise.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "standing-calf-raise",
+    "name": "Standing calf raise",
+    "pattern": "CALVES",
+    "primaryMuscles": [
+      "CALVES"
+    ],
+    "secondaryMuscles": [],
+    "equipment": [
+      "MACHINE"
+    ],
+    "difficulty": 1,
+    "isCompound": false,
+    "tempo": "2-1-1",
+    "defaultRestSeconds": 60,
+    "setup": "Shoulder pads set, balls of feet on the platform.",
+    "cues": [
+      "Drop your heels for a full stretch.",
+      "Press up onto the toes as high as you can.",
+      "Pause at the top for a second."
+    ],
+    "mistakes": [
+      "Bouncing the reps",
+      "Partial range"
+    ],
+    "breathing": "Exhale as you press up.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "dumbbell-calf-raise",
+    "name": "Dumbbell calf raise",
+    "pattern": "CALVES",
+    "primaryMuscles": [
+      "CALVES"
+    ],
+    "secondaryMuscles": [],
+    "equipment": [
+      "DUMBBELL"
+    ],
+    "difficulty": 1,
+    "isCompound": false,
+    "tempo": "2-1-1",
+    "defaultRestSeconds": 45,
+    "setup": "Hold dumbbells, balls of the feet on a step or plate.",
+    "cues": [
+      "Sink the heels below the step.",
+      "Rise as high as possible.",
+      "Lower slowly to the stretch."
+    ],
+    "mistakes": [
+      "Rushing through the range",
+      "Bending the knees"
+    ],
+    "breathing": "Exhale as you rise.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "single-leg-calf-raise",
+    "name": "Single-leg calf raise",
+    "pattern": "CALVES",
+    "primaryMuscles": [
+      "CALVES"
+    ],
+    "secondaryMuscles": [],
+    "equipment": [
+      "BODYWEIGHT"
+    ],
+    "difficulty": 1,
+    "isCompound": false,
+    "tempo": "2-1-1",
+    "defaultRestSeconds": 45,
+    "setup": "Stand on one foot on a step, fingertips on a wall for balance.",
+    "cues": [
+      "Lower the heel slowly.",
+      "Press up onto the ball of the foot.",
+      "Keep the knee almost straight."
+    ],
+    "mistakes": [
+      "Using the arms to pull up",
+      "Bouncing"
+    ],
+    "breathing": "Exhale as you rise.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "plank",
+    "name": "Front plank",
+    "pattern": "CORE",
+    "primaryMuscles": [
+      "CORE"
+    ],
+    "secondaryMuscles": [
+      "SHOULDERS",
+      "GLUTES"
+    ],
+    "equipment": [
+      "BODYWEIGHT"
+    ],
+    "difficulty": 1,
+    "isCompound": false,
+    "tempo": "hold",
+    "defaultRestSeconds": 45,
+    "setup": "Forearms under your shoulders, feet hip width.",
+    "cues": [
+      "Squeeze your glutes and brace as if bracing for a punch.",
+      "Keep a straight line from head to heels.",
+      "Breathe shallow but steady \u2014 do not hold your breath."
+    ],
+    "mistakes": [
+      "Hips sagging",
+      "Hips piked high",
+      "Holding your breath"
+    ],
+    "breathing": "Keep breathing steadily.",
+    "safetyNotes": "Stop the set when your lower back starts to ache.",
+    "videoAsset": null
+  },
+  {
+    "id": "dead-bug",
+    "name": "Dead bug",
+    "pattern": "CORE",
+    "primaryMuscles": [
+      "CORE"
+    ],
+    "secondaryMuscles": [],
+    "equipment": [
+      "BODYWEIGHT"
+    ],
+    "difficulty": 1,
+    "isCompound": false,
+    "tempo": "3-0-3",
+    "defaultRestSeconds": 45,
+    "setup": "Lie on your back, knees over hips, arms pointing at the ceiling.",
+    "cues": [
+      "Press your lower back gently into the floor.",
+      "Lower the opposite arm and leg without arching.",
+      "Return and switch sides."
+    ],
+    "mistakes": [
+      "Lower back arching off the floor",
+      "Rushing the reps"
+    ],
+    "breathing": "Exhale as you extend.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "hanging-leg-raise",
+    "name": "Hanging leg raise",
+    "pattern": "CORE",
+    "primaryMuscles": [
+      "CORE"
+    ],
+    "secondaryMuscles": [
+      "BACK"
+    ],
+    "equipment": [
+      "PULLUP_BAR"
+    ],
+    "difficulty": 3,
+    "isCompound": false,
+    "tempo": "2-0-2",
+    "defaultRestSeconds": 60,
+    "setup": "Hang from a bar with active shoulders.",
+    "cues": [
+      "Tilt your pelvis back before you lift.",
+      "Raise your legs to hip height or higher with control.",
+      "Lower slowly without swinging."
+    ],
+    "mistakes": [
+      "Swinging",
+      "Hinging only at the hips"
+    ],
+    "breathing": "Exhale as you raise.",
+    "safetyNotes": "Master the hanging knee raise first if this causes swinging.",
+    "videoAsset": null
+  },
+  {
+    "id": "cable-crunch",
+    "name": "Cable crunch",
+    "pattern": "CORE",
+    "primaryMuscles": [
+      "CORE"
+    ],
+    "secondaryMuscles": [],
+    "equipment": [
+      "CABLE"
+    ],
+    "difficulty": 2,
+    "isCompound": false,
+    "tempo": "2-1-1",
+    "defaultRestSeconds": 60,
+    "setup": "Kneel facing a high pulley with the rope beside your head.",
+    "cues": [
+      "Crunch your ribs toward your pelvis.",
+      "Keep the hips still.",
+      "Return slowly to a stretch."
+    ],
+    "mistakes": [
+      "Hinging from the hips",
+      "Pulling with the arms"
+    ],
+    "breathing": "Exhale as you crunch.",
+    "safetyNotes": null,
+    "videoAsset": null
+  },
+  {
+    "id": "side-plank",
+    "name": "Side plank",
+    "pattern": "CORE",
+    "primaryMuscles": [
+      "CORE"
+    ],
+    "secondaryMuscles": [
+      "SHOULDERS",
+      "GLUTES"
+    ],
+    "equipment": [
+      "BODYWEIGHT"
+    ],
+    "difficulty": 1,
+    "isCompound": false,
+    "tempo": "hold",
+    "defaultRestSeconds": 45,
+    "setup": "Lie on your side with your elbow under your shoulder.",
+    "cues": [
+      "Stack your feet and lift the hips.",
+      "Keep a straight line from head to heels.",
+      "Reach the top arm to the ceiling."
+    ],
+    "mistakes": [
+      "Hips dropping",
+      "Shoulder collapsing"
+    ],
+    "breathing": "Breathe steadily.",
+    "safetyNotes": null,
+    "videoAsset": null
+  }
+]
