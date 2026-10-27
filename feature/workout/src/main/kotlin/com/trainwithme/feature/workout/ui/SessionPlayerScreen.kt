@@ -1,6 +1,9 @@
 package com.trainwithme.feature.workout.ui
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateColorAsState
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -49,6 +52,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.stateDescription
 import com.trainwithme.core.designsystem.component.BannerTone
 import com.trainwithme.core.designsystem.component.MessageBanner
 import com.trainwithme.core.designsystem.component.PillRow
@@ -248,23 +254,35 @@ fun SessionPlayerScreen(
                 repeat(progress.targetSets) { index ->
                     val done = index < progress.completedWorkingSets
                     val isCurrent = index == progress.completedWorkingSets
+                    val targetSetColor = when {
+                        done -> MaterialTheme.colorScheme.primary
+                        isCurrent -> MaterialTheme.colorScheme.primary.copy(alpha = 0.18f)
+                        else -> MaterialTheme.colorScheme.surfaceContainerHigh
+                    }
+                    val setColor by animateColorAsState(
+                        targetValue = targetSetColor,
+                        animationSpec = tween(durationMillis = 180),
+                        label = "set completion",
+                    )
                     Box(
                         modifier = Modifier
                             .size(38.dp)
                             .clip(CircleShape)
-                            .background(
-                                when {
-                                    done -> MaterialTheme.colorScheme.primary
-                                    isCurrent -> MaterialTheme.colorScheme.primary.copy(alpha = 0.18f)
-                                    else -> MaterialTheme.colorScheme.surfaceContainerHigh
-                                },
-                            ),
+                            .background(setColor)
+                            .semantics(mergeDescendants = true) {
+                                contentDescription = "Set ${index + 1}"
+                                stateDescription = when {
+                                    done -> "completed"
+                                    isCurrent -> "current"
+                                    else -> "upcoming"
+                                }
+                            },
                         contentAlignment = Alignment.Center,
                     ) {
                         if (done) {
                             Icon(
                                 Icons.Default.Check,
-                                contentDescription = "Set ${index + 1} logged",
+                                contentDescription = null,
                                 tint = MaterialTheme.colorScheme.onPrimary,
                                 modifier = Modifier.size(18.dp),
                             )
@@ -429,6 +447,11 @@ private fun RestTimerCard(
     onExtend: (Int) -> Unit,
 ) {
     val fraction = if (totalSeconds <= 0) 0f else remainingSeconds.toFloat() / totalSeconds
+    val animatedFraction by animateFloatAsState(
+        targetValue = fraction.coerceIn(0f, 1f),
+        animationSpec = tween(durationMillis = 240),
+        label = "rest timer progress",
+    )
     Surface(
         color = MaterialTheme.colorScheme.primaryContainer,
         contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -448,7 +471,7 @@ private fun RestTimerCard(
                 TextButton(onClick = onSkip) { Text("Skip") }
             }
             LinearProgressIndicator(
-                progress = { fraction.coerceIn(0f, 1f) },
+                progress = { animatedFraction },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(4.dp)

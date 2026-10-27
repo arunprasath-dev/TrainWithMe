@@ -1,5 +1,13 @@
 package com.trainwithme.feature.onboarding.ui
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
+import androidx.compose.animation.core.tween
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -199,35 +207,44 @@ fun OnboardingContent(
         ) {
             state.failureMessage?.let { MessageBanner(it, tone = BannerTone.ERROR) }
 
-            when (state.step) {
-                OnboardingStep.WELCOME -> WelcomeStep(state, onDisclaimerAccepted)
-                OnboardingStep.BODY -> BodyStep(
-                    state = state,
-                    onNameChange = onNameChange,
-                    onSexChange = onSexChange,
-                    onAgeChange = onAgeChange,
-                    onHeightChange = onHeightChange,
-                    onWeightChange = onWeightChange,
-                    onBodyFatChange = onBodyFatChange,
-                )
-                OnboardingStep.MEASUREMENTS -> MeasurementsStep(
-                    state = state,
-                    onNeckChange = onNeckChange,
-                    onWaistChange = onWaistChange,
-                    onHipChange = onHipChange,
-                    onChestChange = onChestChange,
-                    onArmChange = onArmChange,
-                    onThighChange = onThighChange,
-                )
-                OnboardingStep.EXPERIENCE -> ExperienceStep(state, onExperienceChange, onActivityChange)
-                OnboardingStep.GOAL -> GoalStep(state, onGoalChange)
-                OnboardingStep.SCHEDULE -> ScheduleStep(
-                    state = state,
-                    onEquipmentChange = onEquipmentChange,
-                    onDaysChange = onDaysChange,
-                    onMinutesChange = onMinutesChange,
-                )
-                OnboardingStep.REVIEW -> ReviewStep(state, onEditStep)
+            AnimatedContent(
+                targetState = state.step,
+                transitionSpec = {
+                    (fadeIn(tween(180)) + slideInHorizontally(tween(220)) { it / 14 }) togetherWith
+                        (fadeOut(tween(110)) + slideOutHorizontally(tween(170)) { -it / 14 })
+                },
+                label = "onboarding step",
+            ) { step ->
+                when (step) {
+                    OnboardingStep.WELCOME -> WelcomeStep(state, onDisclaimerAccepted)
+                    OnboardingStep.BODY -> BodyStep(
+                        state = state,
+                        onNameChange = onNameChange,
+                        onSexChange = onSexChange,
+                        onAgeChange = onAgeChange,
+                        onHeightChange = onHeightChange,
+                        onWeightChange = onWeightChange,
+                        onBodyFatChange = onBodyFatChange,
+                    )
+                    OnboardingStep.MEASUREMENTS -> MeasurementsStep(
+                        state = state,
+                        onNeckChange = onNeckChange,
+                        onWaistChange = onWaistChange,
+                        onHipChange = onHipChange,
+                        onChestChange = onChestChange,
+                        onArmChange = onArmChange,
+                        onThighChange = onThighChange,
+                    )
+                    OnboardingStep.EXPERIENCE -> ExperienceStep(state, onExperienceChange, onActivityChange)
+                    OnboardingStep.GOAL -> GoalStep(state, onGoalChange)
+                    OnboardingStep.SCHEDULE -> ScheduleStep(
+                        state = state,
+                        onEquipmentChange = onEquipmentChange,
+                        onDaysChange = onDaysChange,
+                        onMinutesChange = onMinutesChange,
+                    )
+                    OnboardingStep.REVIEW -> ReviewStep(state, onEditStep)
+                }
             }
             Spacer(Modifier.height(8.dp))
         }

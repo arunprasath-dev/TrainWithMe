@@ -18,6 +18,7 @@ import com.trainwithme.core.model.training.SessionStatus
 import com.trainwithme.core.model.training.WorkoutSession
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDate
+import java.time.temporal.ChronoUnit
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -43,6 +44,7 @@ data class DashboardUiState(
     val completedThisWeek: Int = 0,
     val plannedThisWeek: Int = 0,
     val streak: Int = 0,
+    val daysSinceLastCompletedSession: Long? = null,
     val completedTotal: Int = 0,
     val plannedTotal: Int = 0,
     val latestMeasurement: BodyMeasurement? = null,
@@ -172,6 +174,8 @@ class DashboardViewModel @Inject constructor(
             completedDates = completed.map { it.date }.toSet(),
             today = today,
         )
+        val daysSinceLastCompletedSession = completed.maxOfOrNull { it.date }
+            ?.let { ChronoUnit.DAYS.between(it, today).coerceAtLeast(0) }
 
         val kind = when {
             todayPlanDay == null -> TodayKind.REST
@@ -193,6 +197,7 @@ class DashboardViewModel @Inject constructor(
             completedThisWeek = weekCompleted,
             plannedThisWeek = plannedThisWeek,
             streak = streak,
+            daysSinceLastCompletedSession = daysSinceLastCompletedSession,
             completedTotal = completed.size,
             plannedTotal = plan.totalPlannedSessions,
             latestMeasurement = latest,

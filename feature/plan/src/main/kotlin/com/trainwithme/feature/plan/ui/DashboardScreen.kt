@@ -1,5 +1,12 @@
 package com.trainwithme.feature.plan.ui
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.core.tween
+
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,7 +22,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Insights
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -29,11 +35,14 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
@@ -65,7 +74,6 @@ import com.trainwithme.feature.plan.vm.TodayKind
 fun DashboardRoute(
     onStartWorkout: (dayId: String) -> Unit,
     onOpenPlan: () -> Unit,
-    onOpenProgress: () -> Unit,
     onOpenSettings: () -> Unit,
     onOpenOnboarding: () -> Unit,
     onOpenDay: (dayId: String) -> Unit,
@@ -77,7 +85,6 @@ fun DashboardRoute(
         state = state,
         onStartWorkout = { dayId -> onStartWorkout(dayId) },
         onOpenPlan = onOpenPlan,
-        onOpenProgress = onOpenProgress,
         onOpenSettings = onOpenSettings,
         onOpenOnboarding = onOpenOnboarding,
         onOpenDay = onOpenDay,
@@ -93,7 +100,6 @@ fun DashboardContent(
     state: DashboardUiState,
     onStartWorkout: (String) -> Unit,
     onOpenPlan: () -> Unit,
-    onOpenProgress: () -> Unit,
     onOpenSettings: () -> Unit,
     onOpenOnboarding: () -> Unit,
     onOpenDay: (String) -> Unit,
@@ -104,10 +110,19 @@ fun DashboardContent(
 ) {
     var nutritionExpanded by remember { mutableStateOf(false) }
     var showWeighIn by remember { mutableStateOf(false) }
+    var dismissedReturnNote by remember(state.daysSinceLastCompletedSession) { mutableStateOf(false) }
 
     Scaffold(
-        modifier = modifier,
-        containerColor = MaterialTheme.colorScheme.background,
+        modifier = modifier.background(
+            Brush.verticalGradient(
+                colors = listOf(
+                    MaterialTheme.colorScheme.primary.copy(alpha = 0.055f),
+                    MaterialTheme.colorScheme.background,
+                    MaterialTheme.colorScheme.background,
+                ),
+            ),
+        ),
+        containerColor = Color.Transparent,
         topBar = {
             TopAppBar(
                 title = {
@@ -124,9 +139,6 @@ fun DashboardContent(
                     }
                 },
                 actions = {
-                    IconButton(onClick = onOpenProgress) {
-                        Icon(Icons.Default.Insights, contentDescription = "Progress")
-                    }
                     IconButton(onClick = onOpenSettings) {
                         Icon(Icons.Default.Settings, contentDescription = "Settings")
                     }
@@ -165,6 +177,16 @@ fun DashboardContent(
                 return@Column
             }
 
+            val daysAway = state.daysSinceLastCompletedSession
+            if (daysAway != null && daysAway >= 14 && !dismissedReturnNote) {
+                MessageBanner(
+                    text = "Welcome back. Your next planned session is ready whenever you are — ease in at your own pace.",
+                    tone = BannerTone.INFO,
+                    actionLabel = "Dismiss",
+                    onAction = { dismissedReturnNote = true },
+                )
+            }
+
             if (state.needsPlanRebuild) {
                 MessageBanner(
                     text = "You updated your body data. Rebuild the plan so the prescriptions match your new numbers.",
@@ -176,23 +198,27 @@ fun DashboardContent(
 
             val plan = state.plan
 
-            TodayCard(
-                day = state.today,
-                isCompleted = state.todaySession?.status == SessionStatus.COMPLETED,
-                isRestDay = state.todayKind != TodayKind.TRAINING,
-                onStart = { state.today?.let { onStartWorkout(it.id) } },
-                onViewPlan = onOpenPlan,
-            )
+            DashboardReveal(index = 0) {
+                TodayCard(
+                    day = state.today,
+                    isCompleted = state.todaySession?.status == SessionStatus.COMPLETED,
+                    isRestDay = state.todayKind != TodayKind.TRAINING,
+                    onStart = { state.today?.let { onStartWorkout(it.id) } },
+                    onViewPlan = onOpenPlan,
+                )
+            }
 
-            WeekStrip(
-                days = state.weekDays,
-                today = state.todayDate,
-                completedDayIds = state.completedDayIds,
-                onDayClick = { day -> onOpenDay(day.id) },
-            )
+            DashboardReveal(index = 1) {
+                WeekStrip(
+                    days = state.weekDays,
+                    today = state.todayDate,
+                    completedDayIds = state.completedDayIds,
+                    onDayClick = { day -> onOpenDay(day.id) },
+                )
+            }
 
-            Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                TwmCard(modifier = Modifier.weight(1f)) {
+            DashboardReveal(index = 2) {
+                TwmCard {
                     SectionTitle("This week")
                     Spacer(Modifier.height(8.dp))
                     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -202,77 +228,97 @@ fun DashboardContent(
                             caption = "done",
                         )
                         Spacer(Modifier.size(12.dp))
-                        Column {
-                            StatTile(
-                                label = "Streak",
-                                value = "${state.streak}",
-                                caption = "sessions in a row",
-                            )
-                        }
+                        StatTile(
+                            label = "Streak",
+                            value = "${state.streak}",
+                            caption = "sessions in a row",
+                        )
                     }
-                }
-            }
-
-            TwmCard {
-                SectionTitle("Block progress")
-                Spacer(Modifier.height(8.dp))
-                Text(
-                    "${state.completedTotal} of ${state.plannedTotal} planned sessions completed",
-                    style = MaterialTheme.typography.bodyLarge,
-                )
-                Spacer(Modifier.height(8.dp))
-                PlanHeaderCard(
-                    plan = plan,
-                    weekIndex = state.weekIndex,
-                    completed = state.completedTotal,
-                    showRationale = false,
-                )
-                TextButton(onClick = onOpenPlan) { Text("View all weeks") }
-            }
-
-            NutritionCard(
-                nutrition = plan.nutrition,
-                expanded = nutritionExpanded,
-                onToggleExplanation = { nutritionExpanded = !nutritionExpanded },
-            )
-
-            TwmCard {
-                SectionTitle(
-                    text = "Body weight",
-                    trailing = {
-                        TextButton(onClick = { showWeighIn = !showWeighIn }) {
-                            Text(if (showWeighIn) "Close" else "Log")
-                        }
-                    },
-                )
-                val latest = state.latestMeasurement
-                if (latest == null) {
+                    val reflection = when {
+                        state.completedThisWeek == 0 -> "A fresh week. Start when you're ready."
+                        state.plannedThisWeek > 0 && state.completedThisWeek >= state.plannedThisWeek ->
+                            "Your planned sessions are done. Recovery counts, too."
+                        else -> "${state.completedThisWeek} session${if (state.completedThisWeek == 1) "" else "s"} done this week. Keep going at your pace."
+                    }
                     Text(
-                        "No weigh-ins yet. Log one weekly — the first two weeks build your trend.",
+                        reflection,
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
-                } else {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        StatTile(
-                            label = "Latest",
-                            value = "${trim(latest.weightKg)} kg",
-                            caption = state.weightDeltaKg?.let { delta ->
-                                val sign = if (delta > 0) "+" else ""
-                                "$sign${trim(delta)} kg vs previous"
-                            } ?: "first entry",
-                        )
-                    }
                 }
-                if (showWeighIn) {
+            }
+
+            DashboardReveal(index = 3) {
+                TwmCard {
+                    SectionTitle("Block progress")
                     Spacer(Modifier.height(8.dp))
-                    QuickWeighIn(
-                        suggestedKg = latest?.weightKg ?: state.profile?.weightKg ?: 70.0,
-                        onSave = { weight ->
-                            onLogWeight(weight)
-                            showWeighIn = false
+                    Text(
+                        "${state.completedTotal} of ${state.plannedTotal} planned sessions completed",
+                        style = MaterialTheme.typography.bodyLarge,
+                    )
+                    Spacer(Modifier.height(8.dp))
+                    PlanHeaderCard(
+                        plan = plan,
+                        weekIndex = state.weekIndex,
+                        completed = state.completedTotal,
+                        showRationale = false,
+                    )
+                    TextButton(onClick = onOpenPlan) { Text("View all weeks") }
+                }
+            }
+
+            DashboardReveal(index = 4) {
+                NutritionCard(
+                    nutrition = plan.nutrition,
+                    expanded = nutritionExpanded,
+                    onToggleExplanation = { nutritionExpanded = !nutritionExpanded },
+                )
+            }
+
+            DashboardReveal(index = 5) {
+                TwmCard {
+                    SectionTitle(
+                        text = "Body weight",
+                        trailing = {
+                            TextButton(onClick = { showWeighIn = !showWeighIn }) {
+                                Text(if (showWeighIn) "Close" else "Log")
+                            }
                         },
                     )
+                    val latest = state.latestMeasurement
+                    if (latest == null) {
+                        Text(
+                            "No weigh-ins yet. Log one weekly — the first two weeks build your trend.",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    } else {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            StatTile(
+                                label = "Latest",
+                                value = "${trim(latest.weightKg)} kg",
+                                caption = state.weightDeltaKg?.let { delta ->
+                                    val sign = if (delta > 0) "+" else ""
+                                    "$sign${trim(delta)} kg vs previous"
+                                } ?: "first entry",
+                            )
+                        }
+                    }
+                    AnimatedVisibility(
+                        visible = showWeighIn,
+                        enter = fadeIn(tween(180)) + slideInVertically(tween(220)) { it / 10 },
+                    ) {
+                        Column {
+                            Spacer(Modifier.height(8.dp))
+                            QuickWeighIn(
+                                suggestedKg = latest?.weightKg ?: state.profile?.weightKg ?: 70.0,
+                                onSave = { weight ->
+                                    onLogWeight(weight)
+                                    showWeighIn = false
+                                },
+                            )
+                        }
+                    }
                 }
             }
 
@@ -283,6 +329,19 @@ fun DashboardContent(
             )
             Spacer(Modifier.height(24.dp))
         }
+    }
+}
+
+@Composable
+private fun DashboardReveal(index: Int, content: @Composable () -> Unit) {
+    val visibility = remember { MutableTransitionState(false) }
+    LaunchedEffect(Unit) { visibility.targetState = true }
+    AnimatedVisibility(
+        visibleState = visibility,
+        enter = fadeIn(tween(durationMillis = 220, delayMillis = index * 30)) +
+            slideInVertically(tween(durationMillis = 260, delayMillis = index * 30)) { it / 16 },
+    ) {
+        content()
     }
 }
 
@@ -348,7 +407,6 @@ private fun DashboardPreview() {
             state = DashboardUiState(isLoading = false, todayKind = TodayKind.NO_PLAN),
             onStartWorkout = {},
             onOpenPlan = {},
-            onOpenProgress = {},
             onOpenSettings = {},
             onOpenOnboarding = {},
             onOpenDay = {},

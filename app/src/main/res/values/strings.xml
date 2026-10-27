@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">TrainWithMe</string>
+    <string name="widget_description">Your next planned workout, available offline.</string>
+    <string name="widget_no_plan">No plan yet</string>
+    <string name="widget_no_upcoming_session">No session scheduled</string>
+    <string name="widget_create_plan">Build a plan to see your next workout.</string>
+    <string name="widget_session_done">Today's session is complete. Rest and recover.</string>
+    <string name="widget_recovery">Recovery is part of the plan. Your next session will appear here.</string>
+    <string name="widget_session_detail">%1$s · %2$d exercises · about %3$d min</string>
+    <string name="widget_open_app">Open app</string>
 </resources>

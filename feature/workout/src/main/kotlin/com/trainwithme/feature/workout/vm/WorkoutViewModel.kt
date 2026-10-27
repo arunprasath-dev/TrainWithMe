@@ -85,11 +85,14 @@ data class WorkoutUiState(
     val rest: RestState? = null,
     val units: Units = Units.KG,
     val keepScreenOn: Boolean = true,
+    val restTimerSoundEnabled: Boolean = true,
+    val restCompletionCount: Int = 0,
     val summary: SessionSummary? = null,
     val message: String? = null,
     val warmupChecked: Set<Int> = emptySet(),
     val error: String? = null,
     val sessionAlreadyCompleted: Boolean = false,
+    val sessionMilestone: String? = null,
 ) {
     val current: ExerciseProgress? get() = exercises.getOrNull(currentIndex)
     val totalWorkingSetsLogged: Int get() = exercises.sumOf { it.completedWorkingSets }
@@ -157,10 +160,19 @@ class WorkoutViewModel @Inject constructor(
         settingsRepository.observeSettings(),
         combine(local, swaps) { localState, swapState -> localState to swapState },
     ) { plan, session, settings, (localState, swapState) ->
-        buildState(plan, session, settings.units, settings.keepScreenOn, localState, swapState)
+        buildState(
+            plan,
+            session,
+            settings.units,
+            settings.keepScreenOn,
+            settings.restTimerSoundEnabled,
+            localState,
+            swapState,
+        )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), WorkoutUiState())
 
     init {
+        restoreRestTimer()
         // Baseline PRs: taken once, before this session's sets exist in the completed history.
         viewModelScope.launch {
             previousBests = progressRepository.observeHistory().first()
@@ -216,9 +228,7 @@ class WorkoutViewModel @Inject constructor(
     fun finishSession() {
         val session = uiState.value.session ?: return
         viewModelScope.launch {
-            workoutRepository.completeSession(session.id, timeProvider.nowMillis())
-            local.update { it.copy(rest = null) }
-            savedStateHandle[ARG_PHASE] = SessionPhase.SUMMARY.name
+            completeAndShowMilestone(session.id)
         }
     }
 
@@ -228,13 +238,32 @@ class WorkoutViewModel @Inject constructor(
         val session = state.session ?: return
         viewModelScope.launch {
             if (state.totalWorkingSetsLogged > 0) {
-                workoutRepository.completeSession(session.id, timeProvider.nowMillis())
-                savedStateHandle[ARG_PHASE] = SessionPhase.SUMMARY.name
+                completeAndShowMilestone(session.id)
             } else {
                 workoutRepository.abandonSession(session.id, timeProvider.nowMillis())
                 _effects.send(WorkoutEffect.ExitRequested)
             }
         }
+    }
+
+    private suspend fun completeAndShowMilestone(sessionId: String) {
+        val completedBefore = workoutRepository.observeCompletedSessions().first().size
+        workoutRepository.completeSession(sessionId, timeProvider.nowMillis())
+        local.update {
+            it.copy(
+                rest = null,
+                milestoneMessage = when (completedBefore + 1) {
+                    1 -> "First session complete. You showed up and got the work done."
+                    5 -> "Five sessions complete. Consistency is taking shape."
+                    10 -> "Ten sessions complete. Keep building at your own pace."
+                    25 -> "Twenty-five sessions complete. A strong body of work."
+                    50 -> "Fifty sessions complete. Your consistency speaks for itself."
+                    else -> null
+                },
+            )
+        }
+        persistRest(null)
+        savedStateHandle[ARG_PHASE] = SessionPhase.SUMMARY.name
     }
 
     /** Called by the summary screen's "Done" button. */
@@ -303,17 +332,19 @@ class WorkoutViewModel @Inject constructor(
                     targetReps = progress.planned.prescription.repLow,
                 ),
             )
+            val rest = RestState(
+                endsAtMillis = timeProvider.nowMillis() + progress.planned.prescription.restSeconds * 1000L,
+                totalSeconds = progress.planned.prescription.restSeconds,
+                remainingSeconds = progress.planned.prescription.restSeconds,
+            )
             local.update {
                 it.copy(
                     error = null,
                     draft = it.draft.copy(reps = progress.planned.prescription.repLow, rpe = null),
-                    rest = RestState(
-                        endsAtMillis = timeProvider.nowMillis() + progress.planned.prescription.restSeconds * 1000L,
-                        totalSeconds = progress.planned.prescription.restSeconds,
-                        remainingSeconds = progress.planned.prescription.restSeconds,
-                    ),
+                    rest = rest,
                 )
             }
+            persistRest(rest)
             startRestTicker()
         }
     }
@@ -326,19 +357,22 @@ class WorkoutViewModel @Inject constructor(
         viewModelScope.launch { workoutRepository.removeSet(session.id, last.id) }
     }
 
-    fun extendRest(seconds: Int) = local.update { current ->
-        val rest = current.rest ?: return@update current
-        val extraMillis = seconds * 1000L
-        current.copy(
-            rest = rest.copy(
-                endsAtMillis = rest.endsAtMillis + extraMillis,
-                totalSeconds = rest.totalSeconds + seconds,
-                remainingSeconds = rest.remainingSeconds + seconds,
-            ),
+    fun extendRest(seconds: Int) {
+        val rest = local.value.rest ?: return
+        val extraMillis = seconds.coerceAtLeast(0) * 1000L
+        val extended = rest.copy(
+            endsAtMillis = rest.endsAtMillis + extraMillis,
+            totalSeconds = rest.totalSeconds + seconds.coerceAtLeast(0),
+            remainingSeconds = rest.remainingSeconds + seconds.coerceAtLeast(0),
         )
+        local.update { it.copy(rest = extended) }
+        persistRest(extended)
     }
 
-    fun skipRest() = local.update { it.copy(rest = null) }
+    fun skipRest() {
+        local.update { it.copy(rest = null) }
+        persistRest(null)
+    }
 
     // -----------------------------------------------------------------------------------------
     // Exercise navigation
@@ -369,6 +403,7 @@ class WorkoutViewModel @Inject constructor(
                 message = null,
             )
         }
+        persistRest(null)
     }
 
     /**
@@ -433,6 +468,34 @@ class WorkoutViewModel @Inject constructor(
         local.update { it.copy(suggestions = suggestions) }
     }
 
+    private fun restoreRestTimer() {
+        val endsAtMillis = savedStateHandle.get<Long>(ARG_REST_END_MILLIS) ?: return
+        val totalSeconds = savedStateHandle.get<Int>(ARG_REST_TOTAL_SECONDS) ?: 0
+        val remaining = ((endsAtMillis - timeProvider.nowMillis() + 999L) / 1000L)
+            .toInt()
+            .coerceAtLeast(0)
+        if (remaining == 0 || totalSeconds <= 0) {
+            persistRest(null)
+            return
+        }
+        local.update {
+            it.copy(
+                rest = RestState(endsAtMillis, totalSeconds, remaining),
+            )
+        }
+        startRestTicker()
+    }
+
+    private fun persistRest(rest: RestState?) {
+        if (rest == null) {
+            savedStateHandle.remove<Long>(ARG_REST_END_MILLIS)
+            savedStateHandle.remove<Int>(ARG_REST_TOTAL_SECONDS)
+        } else {
+            savedStateHandle[ARG_REST_END_MILLIS] = rest.endsAtMillis
+            savedStateHandle[ARG_REST_TOTAL_SECONDS] = rest.totalSeconds
+        }
+    }
+
     private fun startRestTicker() {
         if (restTickerActive) return
         restTickerActive = true
@@ -442,7 +505,8 @@ class WorkoutViewModel @Inject constructor(
                 val rest = local.value.rest ?: break
                 val remaining = ((rest.endsAtMillis - timeProvider.nowMillis()) / 1000L).toInt().coerceAtLeast(0)
                 if (remaining <= 0) {
-                    local.update { it.copy(rest = null) }
+                    local.update { it.copy(rest = null, restCompletionCount = it.restCompletionCount + 1) }
+                    persistRest(null)
                     break
                 }
                 local.update { it.copy(rest = rest.copy(remainingSeconds = remaining)) }
@@ -456,6 +520,7 @@ class WorkoutViewModel @Inject constructor(
         session: WorkoutSession?,
         units: Units,
         keepScreenOn: Boolean,
+        restTimerSoundEnabled: Boolean,
         localState: LocalState,
         swapState: Map<Int, String>,
     ): WorkoutUiState {
@@ -504,8 +569,11 @@ class WorkoutViewModel @Inject constructor(
             rest = localState.rest?.takeIf { it.remainingSeconds > 0 },
             units = units,
             keepScreenOn = keepScreenOn,
+            restTimerSoundEnabled = restTimerSoundEnabled,
+            restCompletionCount = localState.restCompletionCount,
             summary = if (phase == SessionPhase.SUMMARY) session?.let { buildSummary(it, day) } else null,
             message = localState.message,
+            sessionMilestone = localState.milestoneMessage,
             warmupChecked = localState.warmupChecked,
             error = localState.error,
         )
@@ -543,8 +611,10 @@ class WorkoutViewModel @Inject constructor(
     private data class LocalState(
         val draft: DraftSet = DraftSet(),
         val rest: RestState? = null,
+        val restCompletionCount: Int = 0,
         val suggestions: Map<String, LoadSuggestion> = emptyMap(),
         val message: String? = null,
+        val milestoneMessage: String? = null,
         val error: String? = null,
         val warmupChecked: Set<Int> = emptySet(),
     )
@@ -554,6 +624,8 @@ class WorkoutViewModel @Inject constructor(
         const val ARG_SESSION_ID = "sessionId"
         const val ARG_PHASE = "phase"
         const val ARG_EXERCISE_INDEX = "exerciseIndex"
+        private const val ARG_REST_END_MILLIS = "restEndMillis"
+        private const val ARG_REST_TOTAL_SECONDS = "restTotalSeconds"
         private const val TICK_MS = 500L
     }
 }

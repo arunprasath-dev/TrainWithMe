@@ -1,5 +1,8 @@
 package com.trainwithme.core.designsystem.component
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -15,6 +18,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -24,6 +28,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -43,6 +49,7 @@ fun TrendLineChart(
     points: List<WeightPoint>,
     modifier: Modifier = Modifier,
     unitLabel: String = "kg",
+    seriesLabel: String = "Weight",
     emptyMessage: String = "Log two weigh-ins to see your trend.",
 ) {
     if (points.size < 2) {
@@ -80,6 +87,18 @@ fun TrendLineChart(
                 .height(150.dp)
                 .clip(RoundedCornerShape(16.dp))
                 .background(MaterialTheme.colorScheme.surfaceContainer)
+                .semantics {
+                    val delta = sorted.last().weightKg - sorted.first().weightKg
+                    val direction = when {
+                        delta > 0.05 -> "up"
+                        delta < -0.05 -> "down"
+                        else -> "about the same"
+                    }
+                    contentDescription = "$seriesLabel trend, ${sorted.size} measurements. " +
+                        "From ${formatNumber(sorted.first().weightKg)} $unitLabel on ${formatDate(sorted.first().date)} " +
+                        "to ${formatNumber(sorted.last().weightKg)} $unitLabel on ${formatDate(sorted.last().date)}; " +
+                        "overall $direction by ${formatNumber(kotlin.math.abs(delta))} $unitLabel."
+                }
                 .padding(horizontal = 12.dp, vertical = 14.dp),
         ) {
             val w = size.width
@@ -179,6 +198,11 @@ fun WeeklyBarChart(
                 .height(140.dp)
                 .clip(RoundedCornerShape(16.dp))
                 .background(MaterialTheme.colorScheme.surfaceContainer)
+                .semantics {
+                    contentDescription = "Weekly training volume. " + values.joinToString(separator = "; ") { (label, value) ->
+                        "$label: ${valueFormatter(value)}"
+                    }
+                }
                 .padding(horizontal = 14.dp, vertical = 12.dp),
         ) {
             val gap = size.width / (values.size * 4f)
@@ -222,6 +246,11 @@ fun ProgressRing(
     modifier: Modifier = Modifier,
 ) {
     val clamped = progress.coerceIn(0f, 1f)
+    val animatedProgress by animateFloatAsState(
+        targetValue = clamped,
+        animationSpec = tween(durationMillis = 650),
+        label = "adherence progress",
+    )
     val track = MaterialTheme.colorScheme.outlineVariant
     val accent = MaterialTheme.colorScheme.primary
     Box(
@@ -240,7 +269,7 @@ fun ProgressRing(
             drawArc(
                 color = accent,
                 startAngle = -90f,
-                sweepAngle = 360f * clamped,
+                sweepAngle = 360f * animatedProgress,
                 useCenter = false,
                 style = Stroke(width = stroke, cap = StrokeCap.Round),
             )

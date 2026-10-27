@@ -170,7 +170,7 @@ fun ProgressContent(
         if (state.bodyFatPoints.size >= 2) {
             SectionTitle("Body fat")
             TwmCard {
-                TrendLineChart(points = state.bodyFatPoints, unitLabel = "%")
+                TrendLineChart(points = state.bodyFatPoints, unitLabel = "%", seriesLabel = "Body fat")
             }
         }
 

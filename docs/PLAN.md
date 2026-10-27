@@ -121,7 +121,7 @@ trainer marketplace, live classes, iOS.
 ### 4.3 v1.x candidates (post-MVP backlog)
 
 Adaptive mesocycle re-planning from logged RPE, plate calculator, warm-up set calculator
-with percentages, Health Connect, home-screen widget, exercise substitution learning,
+with percentages, Health Connect, exercise substitution learning,
 Hindi/Tamil localisation, video streaming with CDN + captions, periodised cardio plans.
 
 ---
@@ -692,7 +692,7 @@ dashboard and player · dark mode · airplane mode.
 |---|---|---|
 | v1.1 | Content & content pipeline | licensed footage, per-exercise clips, captions, plate/warm-up calculators, Health Connect weight import |
 | v1.2 | Adaptive coaching | auto re-plan from RPE trend, auto-regulation (RIR), fatigue deload trigger, mesocycle chaining |
-| v1.3 | Engagement | home-screen widget, streaks/achievements, shareable workout card, Wear OS tile |
+| v1.3 | Engagement | home-screen widget (delivered early), session-count milestones and text recap sharing (delivered early), visual share card, Wear OS tile |
 | v2.0 | Platform | accounts + cloud sync, trainer marketplace, live classes, iOS via KMP shared `:core:model` |
 | Later | Nutrition | food logging, barcode scan, integration with coaches |
 
