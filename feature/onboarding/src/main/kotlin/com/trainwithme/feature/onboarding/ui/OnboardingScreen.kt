@@ -141,7 +141,7 @@ fun OnboardingContent(
     Scaffold(
         modifier = modifier,
         topBar = {
-            Column(Modifier.padding(horizontal = 20.dp, vertical = 12.dp)) {
+            Column(Modifier.padding(horizontal = 16.dp, vertical = 12.dp)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
                         text = state.step.title,
@@ -167,7 +167,7 @@ fun OnboardingContent(
         bottomBar = {
             Column(
                 Modifier
-                    .padding(horizontal = 20.dp, vertical = 12.dp)
+                    .padding(horizontal = 16.dp, vertical = 12.dp)
                     .navigationBarsPadding()
                     .imePadding(),
             ) {
@@ -202,8 +202,9 @@ fun OnboardingContent(
                 .fillMaxSize()
                 .padding(padding)
                 .verticalScroll(rememberScrollState())
-                .padding(horizontal = 20.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+                .padding(horizontal = 16.dp)
+                .padding(top = 4.dp, bottom = 24.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             state.failureMessage?.let { MessageBanner(it, tone = BannerTone.ERROR) }
 
@@ -215,6 +216,10 @@ fun OnboardingContent(
                 },
                 label = "onboarding step",
             ) { step ->
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                ) {
                 when (step) {
                     OnboardingStep.WELCOME -> WelcomeStep(state, onDisclaimerAccepted)
                     OnboardingStep.BODY -> BodyStep(
@@ -244,6 +249,7 @@ fun OnboardingContent(
                         onMinutesChange = onMinutesChange,
                     )
                     OnboardingStep.REVIEW -> ReviewStep(state, onEditStep)
+                }
                 }
             }
             Spacer(Modifier.height(8.dp))
@@ -321,6 +327,7 @@ private fun BodyStep(
         value = state.name,
         onValueChange = onNameChange,
         label = "Name",
+        keyboardType = KeyboardType.Text,
         isError = state.errors.containsKey(ProfileField.NAME),
         errorText = "Please enter your name",
     )
@@ -340,6 +347,7 @@ private fun BodyStep(
             keyboardType = KeyboardType.Number,
             modifier = Modifier.weight(1f),
             isError = state.errors.containsKey(ProfileField.AGE),
+            errorText = fieldErrorText(state.errors[ProfileField.AGE], "14–90"),
         )
         TwmTextField(
             value = state.heightCm,
@@ -349,6 +357,7 @@ private fun BodyStep(
             keyboardType = KeyboardType.Decimal,
             modifier = Modifier.weight(1f),
             isError = state.errors.containsKey(ProfileField.HEIGHT),
+            errorText = fieldErrorText(state.errors[ProfileField.HEIGHT], "120–230 cm"),
         )
     }
     Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
@@ -360,6 +369,7 @@ private fun BodyStep(
             keyboardType = KeyboardType.Decimal,
             modifier = Modifier.weight(1f),
             isError = state.errors.containsKey(ProfileField.WEIGHT),
+            errorText = fieldErrorText(state.errors[ProfileField.WEIGHT], "35–250 kg"),
         )
         TwmTextField(
             value = state.bodyFatPercent,
@@ -369,6 +379,7 @@ private fun BodyStep(
             keyboardType = KeyboardType.Decimal,
             modifier = Modifier.weight(1f),
             isError = state.errors.containsKey(ProfileField.BODY_FAT),
+            errorText = fieldErrorText(state.errors[ProfileField.BODY_FAT], "3–60%"),
         )
     }
     Text(
@@ -402,16 +413,52 @@ private fun MeasurementsStep(
         color = MaterialTheme.colorScheme.onSurfaceVariant,
     )
     Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-        TwmTextField(state.neckCm, onNeckChange, "Neck", "cm", modifier = Modifier.weight(1f))
-        TwmTextField(state.waistCm, onWaistChange, "Waist", "cm", modifier = Modifier.weight(1f))
+        TwmTextField(
+            state.neckCm, onNeckChange, "Neck", "cm",
+            keyboardType = KeyboardType.Decimal,
+            modifier = Modifier.weight(1f),
+            isError = state.errors.containsKey(ProfileField.NECK),
+            errorText = fieldErrorText(state.errors[ProfileField.NECK], "20–70 cm"),
+        )
+        TwmTextField(
+            state.waistCm, onWaistChange, "Waist", "cm",
+            keyboardType = KeyboardType.Decimal,
+            modifier = Modifier.weight(1f),
+            isError = state.errors.containsKey(ProfileField.WAIST),
+            errorText = fieldErrorText(state.errors[ProfileField.WAIST], "40–200 cm"),
+        )
     }
     Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-        TwmTextField(state.hipCm, onHipChange, "Hip", "cm", modifier = Modifier.weight(1f))
-        TwmTextField(state.chestCm, onChestChange, "Chest", "cm", modifier = Modifier.weight(1f))
+        TwmTextField(
+            state.hipCm, onHipChange, "Hip", "cm",
+            keyboardType = KeyboardType.Decimal,
+            modifier = Modifier.weight(1f),
+            isError = state.errors.containsKey(ProfileField.HIP),
+            errorText = fieldErrorText(state.errors[ProfileField.HIP], "50–200 cm"),
+        )
+        TwmTextField(
+            state.chestCm, onChestChange, "Chest", "cm",
+            keyboardType = KeyboardType.Decimal,
+            modifier = Modifier.weight(1f),
+        )
     }
     Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-        TwmTextField(state.armCm, onArmChange, "Arm", "cm", modifier = Modifier.weight(1f))
-        TwmTextField(state.thighCm, onThighChange, "Thigh", "cm", modifier = Modifier.weight(1f))
+        TwmTextField(
+            state.armCm, onArmChange, "Arm", "cm",
+            keyboardType = KeyboardType.Decimal,
+            modifier = Modifier.weight(1f),
+        )
+        TwmTextField(
+            state.thighCm, onThighChange, "Thigh", "cm",
+            keyboardType = KeyboardType.Decimal,
+            modifier = Modifier.weight(1f),
+        )
+    }
+    if (state.errors.isNotEmpty()) {
+        MessageBanner(
+            "One of those measurements looks out of range — check the highlighted fields.",
+            tone = BannerTone.ERROR,
+        )
     }
     state.metrics?.let { metrics ->
         if (metrics.bodyFatPercent != null) {
@@ -438,6 +485,9 @@ private fun ExperienceStep(
     onExperienceChange: (ExperienceLevel) -> Unit,
     onActivityChange: (ActivityLevel) -> Unit,
 ) {
+    if (state.errors.containsKey(ProfileField.EXPERIENCE) || state.errors.containsKey(ProfileField.ACTIVITY_LEVEL)) {
+        MessageBanner("Please choose both options so we can set the right volume.", tone = BannerTone.ERROR)
+    }
     SectionTitle("How long have you been training?")
     OptionChips(
         options = ExperienceLevel.entries.toList(),
@@ -459,6 +509,9 @@ private fun ExperienceStep(
 
 @Composable
 private fun GoalStep(state: OnboardingUiState, onGoalChange: (Goal) -> Unit) {
+    if (state.errors.containsKey(ProfileField.GOAL)) {
+        MessageBanner("Pick the goal that matters most right now.", tone = BannerTone.ERROR)
+    }
     SectionTitle("What are you training for?")
     OptionChips(
         options = Goal.entries.toList(),
@@ -486,6 +539,9 @@ private fun ScheduleStep(
     onDaysChange: (Int) -> Unit,
     onMinutesChange: (Int) -> Unit,
 ) {
+    if (state.errors.containsKey(ProfileField.EQUIPMENT)) {
+        MessageBanner("Tell us what equipment you can use.", tone = BannerTone.ERROR)
+    }
     SectionTitle("What equipment can you use?")
     OptionChips(
         options = EquipmentAccess.entries.toList(),
@@ -600,13 +656,20 @@ internal fun warningText(code: IssueCode, args: List<String>): String =
             "Value must be between ${args.getOrNull(0)} and ${args.getOrNull(1)}."
     }
 
+private fun fieldErrorText(code: IssueCode?, rangeHint: String): String? = when (code) {
+    null -> null
+    IssueCode.REQUIRED -> "Required — enter a value"
+    IssueCode.OUT_OF_RANGE -> "Enter a value in $rangeHint"
+    else -> "Check this value"
+}
+
 @Composable
 private fun TwmTextField(
     value: String,
     onValueChange: (String) -> Unit,
     label: String,
     suffix: String? = null,
-    keyboardType: KeyboardType = KeyboardType.Decimal,
+    keyboardType: KeyboardType = KeyboardType.Text,
     modifier: Modifier = Modifier,
     isError: Boolean = false,
     errorText: String? = null,

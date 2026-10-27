@@ -3,7 +3,9 @@ package com.trainwithme.core.designsystem.component
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -257,7 +259,9 @@ fun <T> PillRow(
     modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier = modifier,
+        modifier = modifier
+            .fillMaxWidth()
+            .horizontalScroll(rememberScrollState()),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -360,7 +364,7 @@ fun EmptyState(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(24.dp),
+            .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
@@ -396,10 +400,10 @@ fun MessageBanner(
     onAction: (() -> Unit)? = null,
 ) {
     val color = when (tone) {
-        BannerTone.INFO -> MaterialTheme.colorScheme.secondary
-        BannerTone.WARNING -> MaterialTheme.colorScheme.tertiary
-        BannerTone.ERROR -> MaterialTheme.colorScheme.error
-        BannerTone.SUCCESS -> MaterialTheme.colorScheme.primary
+        BannerTone.INFO -> com.trainwithme.core.designsystem.theme.TrainWithMeColors.info
+        BannerTone.WARNING -> com.trainwithme.core.designsystem.theme.TrainWithMeColors.warning
+        BannerTone.ERROR -> com.trainwithme.core.designsystem.theme.TrainWithMeColors.danger
+        BannerTone.SUCCESS -> com.trainwithme.core.designsystem.theme.TrainWithMeColors.success
     }
     Row(
         modifier = modifier
@@ -437,9 +441,22 @@ fun DetailRow(
             .fillMaxWidth()
             .padding(vertical = 6.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
     ) {
-        Text(label, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
-        Text(value, style = MaterialTheme.typography.titleMedium, color = valueColor)
+        Text(
+            label,
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.weight(1f, fill = false).padding(end = 12.dp),
+        )
+        Text(
+            value,
+            style = MaterialTheme.typography.titleMedium,
+            color = valueColor,
+            textAlign = TextAlign.End,
+            maxLines = 2,
+            overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+        )
     }
 }
 

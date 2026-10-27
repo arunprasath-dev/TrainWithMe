@@ -196,7 +196,8 @@ fun SessionPlayerScreen(
                 .fillMaxSize()
                 .padding(padding)
                 .verticalScroll(rememberScrollState())
-                .padding(horizontal = 16.dp),
+                .padding(horizontal = 16.dp)
+                .padding(top = 4.dp, bottom = 24.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             AnimatedVisibility(visible = state.rest != null) {
@@ -326,9 +327,6 @@ fun SessionPlayerScreen(
                     selected = state.draft.rpe ?: -1.0,
                     onSelect = { onRpeChange(it) },
                     label = { formatNumber(it) },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .horizontalScroll(rememberScrollState()),
                 )
                 Spacer(Modifier.height(14.dp))
                 PrimaryButton(
@@ -407,7 +405,6 @@ fun SessionPlayerScreen(
                 }
             }
 
-            Spacer(Modifier.height(24.dp))
         }
     }
 

@@ -143,7 +143,7 @@ fun DashboardContent(
                         Icon(Icons.Default.Settings, contentDescription = "Settings")
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.background),
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
             )
         },
         bottomBar = { Spacer(Modifier.navigationBarsPadding()) },
@@ -160,8 +160,9 @@ fun DashboardContent(
                 .fillMaxSize()
                 .padding(padding)
                 .verticalScroll(rememberScrollState())
-                .padding(horizontal = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(14.dp),
+                .padding(horizontal = 16.dp)
+                .padding(top = 4.dp, bottom = 24.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             state.message?.let { message ->
                 MessageBanner(
@@ -296,10 +297,17 @@ fun DashboardContent(
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             StatTile(
                                 label = "Latest",
-                                value = "${trim(latest.weightKg)} kg",
+                                value = com.trainwithme.core.model.util.UnitConverter.formatWeight(
+                                    latest.weightKg,
+                                    state.units,
+                                ),
                                 caption = state.weightDeltaKg?.let { delta ->
-                                    val sign = if (delta > 0) "+" else ""
-                                    "$sign${trim(delta)} kg vs previous"
+                                    val display = com.trainwithme.core.model.util.UnitConverter.kgToDisplay(
+                                        kotlin.math.abs(delta),
+                                        state.units,
+                                    )
+                                    val sign = if (delta > 0) "+" else "–"
+                                    "$sign${trim(display)} ${com.trainwithme.core.model.util.UnitConverter.unitLabel(state.units)} vs previous"
                                 } ?: "first entry",
                             )
                         }
@@ -312,6 +320,7 @@ fun DashboardContent(
                             Spacer(Modifier.height(8.dp))
                             QuickWeighIn(
                                 suggestedKg = latest?.weightKg ?: state.profile?.weightKg ?: 70.0,
+                                units = state.units,
                                 onSave = { weight ->
                                     onLogWeight(weight)
                                     showWeighIn = false
@@ -326,8 +335,8 @@ fun DashboardContent(
                 "Reminders and units live in settings.",
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(top = 4.dp),
             )
-            Spacer(Modifier.height(24.dp))
         }
     }
 }
@@ -366,15 +375,28 @@ private fun NoPlanCard(onOpenOnboarding: () -> Unit) {
 }
 
 @Composable
-private fun QuickWeighIn(suggestedKg: Double, onSave: (Double) -> Unit) {
-    var value by remember { mutableStateOf(trim(suggestedKg)) }
+private fun QuickWeighIn(
+    suggestedKg: Double,
+    units: com.trainwithme.core.model.profile.Units,
+    onSave: (Double) -> Unit,
+) {
+    val suggestedDisplay = remember(suggestedKg, units) {
+        trim(com.trainwithme.core.model.util.UnitConverter.kgToDisplay(suggestedKg, units))
+    }
+    var value by remember(suggestedDisplay) { mutableStateOf(suggestedDisplay) }
     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
         OutlinedTextField(
             value = value,
-            onValueChange = { input -> value = input.filter { it.isDigit() || it == '.' }.take(5) },
+            onValueChange = { input -> value = input.filter { it.isDigit() || it == '.' }.take(6) },
             label = { Text("Weight") },
-            suffix = { Text("kg") },
+            suffix = { Text(com.trainwithme.core.model.util.UnitConverter.unitLabel(units)) },
             singleLine = true,
+            isError = value.toDoubleOrNull() == null,
+            supportingText = {
+                if (value.toDoubleOrNull() == null) {
+                    Text("Enter your weight")
+                }
+            },
             modifier = Modifier.weight(1f),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Decimal,
@@ -382,8 +404,12 @@ private fun QuickWeighIn(suggestedKg: Double, onSave: (Double) -> Unit) {
         )
         PrimaryButton(
             text = "Save",
-            onClick = { value.toDoubleOrNull()?.let(onSave) },
-            enabled = value.toDoubleOrNull() != null,
+            onClick = {
+                value.toDoubleOrNull()?.let {
+                    onSave(com.trainwithme.core.model.util.UnitConverter.displayToKg(it, units))
+                }
+            },
+            enabled = value.toDoubleOrNull() != null && (value.toDoubleOrNull() ?: 0.0) > 0,
         )
     }
 }

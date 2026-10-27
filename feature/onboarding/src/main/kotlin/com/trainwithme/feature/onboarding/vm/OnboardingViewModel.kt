@@ -133,10 +133,16 @@ class OnboardingViewModel @Inject constructor(
     fun onArmChange(value: String) = update { it.copy(armCm = value.decimalOnly()) }
     fun onThighChange(value: String) = update { it.copy(thighCm = value.decimalOnly()) }
 
-    fun onExperienceChange(value: ExperienceLevel) = update { it.copy(experience = value) }
-    fun onActivityChange(value: ActivityLevel) = update { it.copy(activityLevel = value) }
-    fun onGoalChange(value: Goal) = update { it.copy(goal = value) }
-    fun onEquipmentChange(value: EquipmentAccess) = update { it.copy(equipmentAccess = value) }
+    fun onExperienceChange(value: ExperienceLevel) = update {
+        it.copy(experience = value, errors = it.errors - ProfileField.EXPERIENCE)
+    }
+    fun onActivityChange(value: ActivityLevel) = update {
+        it.copy(activityLevel = value, errors = it.errors - ProfileField.ACTIVITY_LEVEL)
+    }
+    fun onGoalChange(value: Goal) = update { it.copy(goal = value, errors = it.errors - ProfileField.GOAL) }
+    fun onEquipmentChange(value: EquipmentAccess) = update {
+        it.copy(equipmentAccess = value, errors = it.errors - ProfileField.EQUIPMENT)
+    }
     fun onDaysChange(value: Int) = update { it.copy(daysPerWeek = value.coerceIn(UserProfile.MIN_DAYS, UserProfile.MAX_DAYS)) }
     fun onMinutesChange(value: Int) = update {
         it.copy(
@@ -219,29 +225,79 @@ class OnboardingViewModel @Inject constructor(
     }
 
     private fun validateStep(state: OnboardingUiState): Validation {
-        val profile = state.assembledProfile() ?: return Validation(
-            errors = mapOf(ProfileField.WEIGHT to IssueCode.REQUIRED),
-        )
-        val issues = ProfileValidator.validate(profile)
-        val errorFields = issues.filter { it.severity == IssueSeverity.ERROR }
-        val stepFields = when (state.step) {
-            OnboardingStep.WELCOME -> setOf(ProfileField.DISCLAIMER)
-            OnboardingStep.BODY -> setOf(
-                ProfileField.NAME,
-                ProfileField.AGE,
-                ProfileField.HEIGHT,
-                ProfileField.WEIGHT,
-                ProfileField.BODY_FAT,
-            )
-            OnboardingStep.MEASUREMENTS -> setOf(ProfileField.NECK, ProfileField.WAIST, ProfileField.HIP)
-            OnboardingStep.EXPERIENCE, OnboardingStep.GOAL -> emptySet()
-            OnboardingStep.SCHEDULE -> setOf(ProfileField.DAYS_PER_WEEK, ProfileField.SESSION_MINUTES)
-            OnboardingStep.REVIEW -> ProfileField.entries.toSet()
+        val warnings = state.assembledProfile()?.let { ProfileValidator.warnings(it) }.orEmpty()
+        val errors: Map<ProfileField, IssueCode> = when (state.step) {
+            OnboardingStep.WELCOME -> {
+                if (!state.agreedToDisclaimer) {
+                    mapOf(ProfileField.DISCLAIMER to IssueCode.DISCLAIMER_REQUIRED)
+                } else {
+                    emptyMap()
+                }
+            }
+            OnboardingStep.BODY -> buildMap {
+                if (state.name.trim().isBlank()) put(ProfileField.NAME, IssueCode.REQUIRED)
+                val age = state.age.toIntOrNull()
+                if (age == null) {
+                    put(ProfileField.AGE, IssueCode.REQUIRED)
+                } else if (age !in UserProfile.MIN_AGE..UserProfile.MAX_AGE) {
+                    put(ProfileField.AGE, IssueCode.OUT_OF_RANGE)
+                }
+                val height = state.heightCm.toDoubleOrNull()
+                if (height == null) {
+                    put(ProfileField.HEIGHT, IssueCode.REQUIRED)
+                } else if (height !in UserProfile.MIN_HEIGHT_CM..UserProfile.MAX_HEIGHT_CM) {
+                    put(ProfileField.HEIGHT, IssueCode.OUT_OF_RANGE)
+                }
+                val weight = state.weightKg.toDoubleOrNull()
+                if (weight == null) {
+                    put(ProfileField.WEIGHT, IssueCode.REQUIRED)
+                } else if (weight !in UserProfile.MIN_WEIGHT_KG..UserProfile.MAX_WEIGHT_KG) {
+                    put(ProfileField.WEIGHT, IssueCode.OUT_OF_RANGE)
+                }
+                state.bodyFatPercent.toDoubleOrNull()?.let { bf ->
+                    if (bf !in UserProfile.MIN_BODY_FAT..UserProfile.MAX_BODY_FAT) {
+                        put(ProfileField.BODY_FAT, IssueCode.OUT_OF_RANGE)
+                    }
+                } ?: run {
+                    if (state.bodyFatPercent.isNotBlank()) put(ProfileField.BODY_FAT, IssueCode.OUT_OF_RANGE)
+                }
+            }
+            OnboardingStep.MEASUREMENTS -> buildMap {
+                fun checkOptional(raw: String, field: ProfileField, min: Double, max: Double) {
+                    if (raw.isBlank()) return
+                    val parsed = raw.toDoubleOrNull()
+                    if (parsed == null || parsed !in min..max) put(field, IssueCode.OUT_OF_RANGE)
+                }
+                checkOptional(state.neckCm, ProfileField.NECK, 20.0, 70.0)
+                checkOptional(state.waistCm, ProfileField.WAIST, 40.0, 200.0)
+                checkOptional(state.hipCm, ProfileField.HIP, 50.0, 200.0)
+            }
+            OnboardingStep.EXPERIENCE -> buildMap {
+                if (state.experience == null) put(ProfileField.EXPERIENCE, IssueCode.REQUIRED)
+                if (state.activityLevel == null) put(ProfileField.ACTIVITY_LEVEL, IssueCode.REQUIRED)
+            }
+            OnboardingStep.GOAL -> buildMap {
+                if (state.goal == null) put(ProfileField.GOAL, IssueCode.REQUIRED)
+            }
+            OnboardingStep.SCHEDULE -> buildMap {
+                if (state.equipmentAccess == null) put(ProfileField.EQUIPMENT, IssueCode.REQUIRED)
+                if (state.daysPerWeek !in UserProfile.MIN_DAYS..UserProfile.MAX_DAYS) {
+                    put(ProfileField.DAYS_PER_WEEK, IssueCode.OUT_OF_RANGE)
+                }
+                if (state.sessionMinutes !in UserProfile.MIN_SESSION_MINUTES..UserProfile.MAX_SESSION_MINUTES) {
+                    put(ProfileField.SESSION_MINUTES, IssueCode.OUT_OF_RANGE)
+                }
+            }
+            OnboardingStep.REVIEW -> {
+                val profile = state.assembledProfile()
+                    ?: return Validation(
+                        errors = mapOf(ProfileField.WEIGHT to IssueCode.REQUIRED),
+                        warnings = warnings,
+                    )
+                ProfileValidator.firstErrorByField(profile).mapValues { it.value.code }
+            }
         }
-        return Validation(
-            errors = errorFields.filter { it.field in stepFields }.associate { it.field to it.code },
-            warnings = issues.filter { it.severity == IssueSeverity.WARNING },
-        )
+        return Validation(errors = errors, warnings = warnings)
     }
 
     private fun update(block: (OnboardingUiState) -> OnboardingUiState) = _uiState.update(block)
