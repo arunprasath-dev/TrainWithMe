@@ -45,12 +45,22 @@ jobs:
         run: |
           {
             echo "### Build diagnostics (run ${{ github.run_id }})"
-            for f in compile test lint; do
-              echo "#### $f"
-              echo '```'
-              grep -E "^(e: |FAILED|FAILURE|\* What went wrong|> Task .* FAILED)|tests? completed|There were failing tests|^[A-Za-z0-9_.]+ > .* FAILED|Lint found|Error: " "$f.log" 2>/dev/null | head -60 || true
-              echo '```'
+            echo "#### compile"
+            echo '```'
+            grep -E "^e: |> Task .* FAILED" compile.log 2>/dev/null | head -40 || true
+            echo '```'
+            echo "#### test failures"
+            echo '```'
+            RESULTS=$(find . -path "*/test-results/*" -name "*.xml" | head -20)
+            for xml in $RESULTS; do
+              echo "== $xml"
+              grep -o -E '<testcase name="[^"]*"|<failure message="[^"]{0,300}' "$xml" | head -30 || true
             done
+            echo '```'
+            echo "#### lint"
+            echo '```'
+            grep -E "What went wrong|Caused by|Exception|Error:|Lint found|\.xml:[0-9]+" -A3 lint.log 2>/dev/null | head -50 || true
+            echo '```'
           } > comment.md
           if [ -n "$PR" ]; then gh pr comment "$PR" --body-file comment.md; fi
-          cat comment.md
+          head -c 3000 comment.md
